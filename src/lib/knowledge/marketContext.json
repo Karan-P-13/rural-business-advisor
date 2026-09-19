@@ -1,0 +1,20 @@
+{
+  "rural_agricultural": {
+    "description": "Areas primarily dependent on farming, animal husbandry, and allied activities.",
+    "demand": "High demand for agricultural inputs (seeds, fertilizers), farm machinery repair, dairy processing, and cold storage.",
+    "rawMaterialSupply": "Abundant local supply of crops, milk, and organic waste.",
+    "risks": "Seasonal dependency on monsoons, price fluctuations in wholesale markets, and perishability of goods."
+  },
+  "semi_urban_tier3": {
+    "description": "Small towns serving as hubs for surrounding villages.",
+    "demand": "Growing demand for retail, FMCG, basic IT services, tailoring, two-wheeler repair, and fast food.",
+    "rawMaterialSupply": "Moderate supply chain connectivity to larger cities.",
+    "risks": "Increasing competition from larger brands, changing consumer preferences, and rent costs."
+  },
+  "artisan_cluster": {
+    "description": "Villages or towns known for specific traditional crafts (e.g., weaving, pottery).",
+    "demand": "Demand for modernized tools, packaging, direct-to-consumer online sales, and eco-friendly products.",
+    "rawMaterialSupply": "Local availability of specialized raw materials (clay, yarn, wood).",
+    "risks": "Dependence on middlemen, lack of modern marketing skills, and seasonal demand dips."
+  }
+}

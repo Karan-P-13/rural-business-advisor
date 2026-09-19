@@ -1,26 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FCFCFC; /* bg-surface */
+  --foreground: #14161C; /* text-ink */
 }
 
 @theme inline {
+  /* Apply Geist font globally */
+  --font-sans: 'Geist', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  
+  /* Map Tailwind defaults to the new Prose aesthetic */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Map Slate/Gray to Prose grays */
+  --color-slate-50: #FCFCFC; /* surface */
+  --color-slate-100: #F4F4F2; /* raised */
+  --color-slate-200: #E8E8E4; /* line */
+  --color-slate-300: #E8E8E4;
+  --color-slate-400: #6B7080; /* muted */
+  --color-slate-500: #6B7080;
+  --color-slate-600: #6B7080;
+  --color-slate-700: #14161C; /* ink */
+  --color-slate-800: #14161C;
+  --color-slate-900: #14161C;
+
+  --color-gray-50: #FCFCFC;
+  --color-gray-100: #F4F4F2;
+  --color-gray-200: #E8E8E4;
+  --color-gray-300: #E8E8E4;
+  --color-gray-400: #6B7080;
+  --color-gray-500: #6B7080;
+  --color-gray-600: #6B7080;
+  --color-gray-700: #14161C;
+  --color-gray-800: #14161C;
+  --color-gray-900: #14161C;
+
+  /* Map Emerald to the new Dark Ink/Monochrome theme */
+  --color-emerald-50: #FCFCFC;
+  --color-emerald-100: #F4F4F2;
+  --color-emerald-200: #E8E8E4;
+  --color-emerald-300: #6B7080;
+  --color-emerald-400: #6B7080;
+  --color-emerald-500: #14161C; /* Dark accent */
+  --color-emerald-600: #14161C;
+  --color-emerald-700: #14161C;
+  --color-emerald-800: #14161C;
+  --color-emerald-900: #14161C;
+
+  /* Map Teal to Ink (to flatten gradients) */
+  --color-teal-500: #14161C;
+  --color-teal-600: #14161C;
+
+  /* Map Blue/Indigo/Purple to the new Indigo Accent (#6366F1) */
+  --color-indigo-50: #FCFCFC;
+  --color-indigo-100: #F4F4F2;
+  --color-indigo-500: #6366F1;
+  --color-indigo-600: #6366F1;
+  
+  --color-purple-600: #6366F1;
+  --color-purple-700: #6366F1;
+  
+  --color-blue-50: #FCFCFC;
+  --color-blue-100: #F4F4F2;
+  --color-blue-500: #6366F1;
+  --color-blue-600: #6366F1;
+  --color-blue-700: #6366F1;
+  --color-blue-800: #6366F1;
+
+  /* Universal softer border radius mapping */
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }

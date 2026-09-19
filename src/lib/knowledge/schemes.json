@@ -1,0 +1,105 @@
+[
+  {
+    "id": "pmegp",
+    "name": "Prime Minister Employment Generation Programme (PMEGP)",
+    "description": "A credit-linked subsidy scheme aimed at generating micro-enterprise ventures in rural and urban areas.",
+    "targetAudience": ["rural", "urban", "manufacturing", "service", "agriculture allied"],
+    "eligibilityCriteria": "Any individual above 18 years. At least VIII pass for projects above Rs. 10 Lakhs in manufacturing or above Rs. 5 Lakhs in service sector. Only new projects are considered.",
+    "subsidyDetails": "Up to 35% subsidy for rural areas (special category) and 25% for general category.",
+    "maxFunding": "Up to Rs. 50 Lakhs for manufacturing sector and Rs. 20 Lakhs for service sector.",
+    "requiredDocuments": [
+      "Aadhaar Card",
+      "Project Report",
+      "Rural Area Certificate",
+      "Education Certificate",
+      "Category Certificate (if applicable)"
+    ],
+    "applicationSteps": [
+      "Visit the official KVIC online portal.",
+      "Fill the online application form and upload documents.",
+      "Submit the application to the preferred bank.",
+      "Attend the EDP training once the loan is sanctioned."
+    ]
+  },
+  {
+    "id": "mudra_shishu",
+    "name": "Pradhan Mantri MUDRA Yojana - Shishu",
+    "description": "Loans for starting a new micro-business or expanding a very small existing business without collateral.",
+    "targetAudience": ["retail", "street vendors", "micro-manufacturing", "artisans"],
+    "eligibilityCriteria": "Any Indian citizen with a business plan for a non-farm sector income generating activity such as manufacturing, processing, trading, or service sector.",
+    "subsidyDetails": "No direct subsidy, but offers very low-interest rates. No collateral required.",
+    "maxFunding": "Up to Rs. 50,000.",
+    "requiredDocuments": [
+      "Identity Proof (Aadhaar/Voter ID)",
+      "Address Proof",
+      "Quotations for machinery/items to be purchased",
+      "Passport size photos"
+    ],
+    "applicationSteps": [
+      "Prepare a simple business plan.",
+      "Visit a local bank or apply through the Udyamimitra portal.",
+      "Fill out the MUDRA application form.",
+      "Submit the required documents."
+    ]
+  },
+  {
+    "id": "mudra_kishore",
+    "name": "Pradhan Mantri MUDRA Yojana - Kishore",
+    "description": "Loans for micro-businesses that have started and need funds to expand.",
+    "targetAudience": ["retail", "service", "manufacturing", "expansion"],
+    "eligibilityCriteria": "Existing micro-enterprises needing funds for expansion. No default history.",
+    "subsidyDetails": "No direct subsidy. No collateral required.",
+    "maxFunding": "Rs. 50,000 to Rs. 5 Lakhs.",
+    "requiredDocuments": [
+      "Identity and Address Proof",
+      "Business registration certificate",
+      "Last 6 months bank statement",
+      "Supplier quotations"
+    ],
+    "applicationSteps": [
+      "Approach a local bank with your business expansion plan.",
+      "Submit the MUDRA Kishore application form.",
+      "Provide bank statements and required documents."
+    ]
+  },
+  {
+    "id": "pm_vishwakarma",
+    "name": "PM Vishwakarma Yojana",
+    "description": "Aimed at supporting traditional artisans and craftspeople in rural and urban areas.",
+    "targetAudience": ["artisans", "craftspeople", "carpenters", "blacksmiths", "weavers", "potters", "tailors"],
+    "eligibilityCriteria": "An artisan or craftsperson working with hands and tools in one of the 18 family-based traditional trades.",
+    "subsidyDetails": "Credit support with concessional interest rate of 5%. Skill upgrading stipend. Toolkit incentive up to Rs. 15,000.",
+    "maxFunding": "Up to Rs. 1 Lakh (first tranche) and Rs. 2 Lakhs (second tranche).",
+    "requiredDocuments": [
+      "Aadhaar Card",
+      "Ration Card",
+      "Bank Details",
+      "Skill/Trade Proof (if applicable)"
+    ],
+    "applicationSteps": [
+      "Register on the PM Vishwakarma portal using Aadhaar.",
+      "Undergo skill verification and basic training.",
+      "Apply for the toolkit incentive and credit support."
+    ]
+  },
+  {
+    "id": "standup_india",
+    "name": "Stand-Up India Scheme",
+    "description": "Facilitates bank loans for setting up a greenfield enterprise.",
+    "targetAudience": ["SC/ST entrepreneurs", "women entrepreneurs", "manufacturing", "services", "agri-allied"],
+    "eligibilityCriteria": "SC/ST and/or women entrepreneurs above 18 years of age. Must be a greenfield (new) project.",
+    "subsidyDetails": "Credit guarantee coverage available. Refinance window through SIDBI.",
+    "maxFunding": "Between Rs. 10 Lakhs and Rs. 1 Crore.",
+    "requiredDocuments": [
+      "Identity and Address Proof",
+      "Caste/Category Certificate",
+      "Detailed Project Report (DPR)",
+      "Bank Details"
+    ],
+    "applicationSteps": [
+      "Apply directly at the bank branch.",
+      "Apply through SIDBI's Stand-Up India portal.",
+      "Submit the DPR and necessary proofs."
+    ]
+  }
+]

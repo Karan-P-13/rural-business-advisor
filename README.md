@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI-Driven Hyper-Local Business Advisory and Financial Structuring Assistant
 
-## Getting Started
+**Smart India Hackathon 2026 (SIH 2026)**
+**Problem ID:** SIH26091
 
-First, run the development server:
+## Team Members
+- **Karan P**
+- **Kiruthika M**
+- **Lakshya R**
+- **Mamathi S**
+*(Hindustan Institute of Technology & Science)*
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🚀 Project Overview
+
+Rural micro-entrepreneurs face massive hurdles in building sustainable businesses due to language barriers, low digital literacy, and lack of hyper-local market insights. 
+
+**Unnati Advisor** is an AI-driven, voice-enabled web platform designed to solve this. It provides personalized, hyper-local business plans, automated financial projections, and perfectly matched government scheme recommendations (PMEGP, MUDRA) tailored to a user's exact village, budget, and skillset.
+
+### 🌟 Key Features
+
+1. **Voice-Enabled Sequential Chatbot**: Overcomes low literacy by allowing users to dictate their location, budget, and skills using native Speech-to-Text.
+2. **Multilingual AI Responses**: Select between English, Hindi, and Tamil. The prompt natively forces the Gemini LLM to return fully translated, structured JSON output.
+3. **RAG-Grounded Scheme Advisory**: Our Retrieval-Augmented Generation (RAG) module grounds the AI in verified government scheme policies and hyper-local district templates.
+4. **Interactive Financial Breakdown**: A visual dashboard (using `Recharts`) that automatically projects 6-month revenues, initial investments, and break-even points.
+5. **Production Resilience & PWA**: Caches static assets via a Service Worker (`sw.js`) and persists session state via `localStorage`. Gracefully falls back to a pre-computed plan if network/API drops, ensuring 100% demo uptime.
+6. **One-Click Export**: Easily download the comprehensive business plan as a PDF for offline reference.
+
+---
+
+## 🏗️ Architecture Flow
+
+```mermaid
+graph TD;
+    A[User Input Voice/Text] -->|Location, Budget, Skills| B(Next.js API Route)
+    B --> C{RAG Retrieval Service}
+    C -->|Fetch Context| D[Local Knowledge Base]
+    C -->|Fetch Schemes| E[Govt Schemes DB]
+    B --> F{Financial Engine}
+    F -->|Calculate Baselines| G[Guardrails]
+    C & G --> H((Google Gemini AI))
+    H -->|Structured JSON Output| I[Frontend UI]
+    I --> J[Business Plan]
+    I --> K[Financial Charts]
+    I --> L[Scheme Checklist]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 💻 Quickstart Guide
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
+- Node.js (v18+)
+- Google Gemini API Key
 
-## Learn More
+### Local Setup
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-org/unnati-advisor.git
+   cd unnati-advisor
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Set Environment Variables:**
+   Copy the example environment file and insert your Gemini API Key.
+   ```bash
+   cp .env.example .env.local
+   ```
+   *Edit `.env.local`:*
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
 
-## Deploy on Vercel
+4. **Run the Development Server:**
+   ```bash
+   npm run dev
+   ```
+5. **Open the App:** Navigate to `http://localhost:3000` in your browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Tech Stack
+- **Frontend Framework:** Next.js 14 (App Router), React
+- **Styling:** Tailwind CSS
+- **AI/LLM:** Vercel AI SDK, Google Gemini (`gemini-1.5-pro`)
+- **Data Visualization:** Recharts
+- **Icons:** Lucide React
+- **Deployment Ready:** Vercel (Optimized for edge networking)
