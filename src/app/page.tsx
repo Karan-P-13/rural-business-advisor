@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LZString from 'lz-string';
 import BusinessDashboard from '@/components/BusinessDashboard';
-import SwipeRow from '@/components/SwipeRow';
+import GlareHover from '@/components/GlareHover';
 import { extraPrompts } from "../lib/t";
 import { missingPrompts } from "../lib/t2";
 import { MoreVertical, Edit2, Share2, Download, Volume2, Send, MapPin, Mic, Globe, Sparkles, User, Loader2, Plus, Menu, Moon, Sun, X, MessageSquare, Clock, Camera, Trash2 } from 'lucide-react';
@@ -545,17 +545,15 @@ export default function Home() {
               {sessions.length === 0 ? (
                 <p className="text-slate-500 dark:text-slate-400 text-sm text-center mt-8">{(t[language as keyof typeof t] || t.English).noPlans}</p>
               ) : sessions.map(s => (
-                <SwipeRow 
+                <GlareHover 
                   key={s.id} 
-                  onCommit={() => deleteSession(s.id)}
-                  rowColor={isDarkMode ? '#14161C' : '#f8fafc'}
-                  textColor={isDarkMode ? '#ffffff' : '#0f172a'}
-                  drawerColor={isDarkMode ? '#1e293b' : '#e2e8f0'}
-                  height={68}
-                  radius={12}
-                  style={{ marginBottom: '8px' }}
+                  onClick={() => loadSession(s)}
+                  className="w-full text-left p-3 rounded-xl bg-slate-50 dark:bg-[#14161C] hover:bg-emerald-50 dark:hover:bg-emerald-950/30 border border-slate-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700/50 transition-all cursor-pointer group"
+                  glareColor={isDarkMode ? '#ffffff' : '#10b981'}
+                  glareOpacity={isDarkMode ? 0.08 : 0.15}
+                  transitionDuration={600}
                 >
-                  <div className="w-full flex items-start justify-between relative h-full w-full" onClick={() => loadSession(s)}>
+                  <div className="w-full flex items-start justify-between relative h-full">
                   
                   <div className="flex-1 min-w-0 pr-2">
                     <div className="flex items-center space-x-2 mb-1">
@@ -611,7 +609,7 @@ export default function Home() {
                     </div>
                   )}
                   </div>
-                </SwipeRow>
+                </GlareHover>
               ))}
               <div className="p-4 border-t border-slate-200 dark:border-slate-800 mt-auto">
                 <button onClick={() => { if(window.confirm('Are you sure you want to delete all saved plans?')) { localStorage.removeItem('busidvice_sessions'); setSessions([]); } }} className="w-full py-2.5 px-4 bg-white dark:bg-[#1A1D24] border border-red-200 text-red-600 rounded-xl font-medium text-sm hover:bg-red-50 dark:hover:bg-red-950/30 flex items-center justify-center gap-2 transition-all shadow-sm dark:shadow-none">
