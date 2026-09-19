@@ -126,13 +126,13 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
             <PieIcon className="w-5 h-5 text-gray-500" />
             <h3 className="font-bold flex items-center">{(ui[language as keyof typeof ui] || ui.English).capex} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).capexInfo} /></h3>
           </div>
-          <div className="h-56">
+          <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={capExData}
                   cx="50%"
-                  cy="50%"
+                  cy="40%"
                   innerRadius={60}
                   outerRadius={80}
                   paddingAngle={5}
@@ -145,7 +145,7 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
                 </Pie>
                 {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 <Tooltip formatter={(value: any) => formatCurrency(Number(value))} />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -159,7 +159,7 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
               <h3 className="font-bold text-gray-800">{(ui[language as keyof typeof ui] || ui.English).rev}</h3>
             </div>
           </div>
-          <div className="h-56">
+          <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={profitLossData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -167,7 +167,7 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
                 <YAxis tickFormatter={(value) => `₹${value/1000}k`} tick={{fontSize: 12}} />
                 {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 <Tooltip formatter={(value: any) => formatCurrency(Number(value))} />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
                 <Bar dataKey="Revenue" fill="#10b981" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="Expenses" fill="#f43f5e" radius={[4, 4, 0, 0]} />
               </BarChart>

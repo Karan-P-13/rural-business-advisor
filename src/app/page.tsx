@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import BusinessDashboard from '@/components/BusinessDashboard';
 import { extraPrompts } from "../lib/t";
 import { missingPrompts } from "../lib/t2";
-import { Volume2, Send, MapPin, Mic, Globe, Sparkles, User, Loader2, Plus, Menu, X, MessageSquare, Clock, Camera } from 'lucide-react';
+import { Volume2, Send, MapPin, Mic, Globe, Sparkles, User, Loader2, Plus, Menu, X, MessageSquare, Clock, Camera, Trash2 } from 'lucide-react';
 
 type Language = string;
 type Step = 'LOCATION' | 'BUDGET' | 'SKILLS' | 'INTEREST' | 'COMPLETED';
@@ -482,8 +482,9 @@ export default function Home() {
                 </button>
               ))}
               <div className="p-4 border-t border-slate-200 mt-auto">
-                <button onClick={() => { localStorage.removeItem('busidvice_sessions'); setSessions([]); }} className="w-full py-2.5 px-4 bg-red-50 text-red-600 rounded-xl font-semibold text-sm hover:bg-red-100 transition-colors">
-                  Clear History (For Demo)
+                <button onClick={() => { if(window.confirm('Are you sure you want to delete all saved plans?')) { localStorage.removeItem('busidvice_sessions'); setSessions([]); } }} className="w-full py-2.5 px-4 bg-white border border-red-200 text-red-600 rounded-xl font-medium text-sm hover:bg-red-50 flex items-center justify-center gap-2 transition-all shadow-sm">
+                  <Trash2 className="w-4 h-4" />
+                  Clear Saved Plans
                 </button>
               </div>
             </div>
