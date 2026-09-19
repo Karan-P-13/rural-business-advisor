@@ -128,7 +128,7 @@ export default function SchemeAdvisor({
     <div className="space-y-6">
 
       {/* Header */}
-      <div className="bg-white dark:bg-[#1A1D24] p-5 rounded-xl border border-blue-100 dark:border-blue-900/50 shadow-sm dark:shadow-none">
+      <div className="bg-white dark:bg-[#20242D] p-5 rounded-xl border border-blue-100 dark:border-blue-900/50 shadow-sm dark:shadow-none">
         <div className="flex items-center space-x-3 mb-2">
           <Landmark className="w-6 h-6 text-blue-600" />
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t.title}</h2>
@@ -144,7 +144,7 @@ export default function SchemeAdvisor({
         {schemes.map((scheme, idx) => (
           <div
             key={idx}
-            className="bg-white dark:bg-[#1A1D24] border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm dark:shadow-none hover:shadow-md transition-shadow"
+            className="bg-white dark:bg-[#20242D] border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm dark:shadow-none hover:shadow-md transition-shadow"
           >
             {/* Card Header */}
             <div className="bg-gradient-to-r from-blue-50 dark:from-blue-950/30 to-indigo-50 dark:to-indigo-950/30 border-b border-blue-100 dark:border-blue-900/50 p-4">

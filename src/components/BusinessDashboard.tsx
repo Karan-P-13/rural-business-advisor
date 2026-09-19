@@ -54,7 +54,7 @@ export default function BusinessDashboard({ businessPlan, financialData, schemes
   };
 
   return (
-    <div className="flex flex-col h-full bg-slate-50/50 print:block print:h-auto print:overflow-visible">
+    <div className="flex flex-col h-full bg-slate-50/50 dark:bg-[#1A1D24] print:block print:h-auto print:overflow-visible">
       
       {/* Top Action Bar */}
       <div className="bg-gradient-to-r from-white dark:from-[#1A1D24] to-slate-50 dark:to-[#14161C] px-6 py-5 border-b border-slate-200/80 dark:border-slate-800/80 flex justify-between items-center shadow-sm dark:shadow-none flex-shrink-0 print:hidden">
@@ -72,25 +72,25 @@ export default function BusinessDashboard({ businessPlan, financialData, schemes
       </div>
 
       {/* Tabs */}
-      <div className="px-6 pt-4 bg-slate-50/50 flex-shrink-0 print:hidden">
+      <div className="px-6 pt-4 bg-slate-50/50 dark:bg-[#1A1D24] flex-shrink-0 print:hidden">
         <div className="flex space-x-2 border-b border-slate-200/80 dark:border-slate-800/80 overflow-x-auto scrollbar-hide print:hidden" style={{ scrollbarWidth: "none" }}>
           <button 
             onClick={() => setActiveTab('plan')}
-            className={`flex-shrink-0 whitespace-nowrap flex items-center space-x-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'plan' ? 'border-emerald-500 text-emerald-700 bg-white dark:bg-[#1A1D24] rounded-t-xl shadow-[0_-2px_10px_rgba(0,0,0,0.02)]' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:bg-slate-100/50 rounded-t-xl'}`}
+            className={`flex-shrink-0 whitespace-nowrap flex items-center space-x-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'plan' ? 'border-emerald-500 text-emerald-700 dark:text-emerald-400 bg-white dark:bg-[#20242D] rounded-t-xl shadow-[0_-2px_10px_rgba(0,0,0,0.02)]' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:bg-slate-100/50 dark:hover:bg-[#14161C] rounded-t-xl'}`}
           >
             <FileText className="w-4 h-4" />
             <span>{(uiDict[language as keyof typeof uiDict] || uiDict.English).tab1}</span>
           </button>
           <button 
             onClick={() => setActiveTab('finance')}
-            className={`flex-shrink-0 whitespace-nowrap flex items-center space-x-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'finance' ? 'border-blue-500 text-blue-700 bg-white dark:bg-[#1A1D24] rounded-t-xl shadow-[0_-2px_10px_rgba(0,0,0,0.02)]' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:bg-slate-100/50 rounded-t-xl'}`}
+            className={`flex-shrink-0 whitespace-nowrap flex items-center space-x-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'finance' ? 'border-blue-500 text-blue-700 dark:text-blue-400 bg-white dark:bg-[#20242D] rounded-t-xl shadow-[0_-2px_10px_rgba(0,0,0,0.02)]' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:bg-slate-100/50 dark:hover:bg-[#14161C] rounded-t-xl'}`}
           >
             <PieChart className="w-4 h-4" />
             <span>{(uiDict[language as keyof typeof uiDict] || uiDict.English).tab2}</span>
           </button>
           <button 
             onClick={() => setActiveTab('schemes')}
-            className={`flex-shrink-0 whitespace-nowrap flex items-center space-x-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'schemes' ? 'border-purple-500 text-purple-700 bg-white dark:bg-[#1A1D24] rounded-t-xl shadow-[0_-2px_10px_rgba(0,0,0,0.02)]' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:bg-slate-100/50 rounded-t-xl'}`}
+            className={`flex-shrink-0 whitespace-nowrap flex items-center space-x-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'schemes' ? 'border-purple-500 text-purple-700 dark:text-purple-400 bg-white dark:bg-[#20242D] rounded-t-xl shadow-[0_-2px_10px_rgba(0,0,0,0.02)]' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:bg-slate-100/50 dark:hover:bg-[#14161C] rounded-t-xl'}`}
           >
             <Landmark className="w-4 h-4" />
             <span>{(uiDict[language as keyof typeof uiDict] || uiDict.English).tab3}</span>

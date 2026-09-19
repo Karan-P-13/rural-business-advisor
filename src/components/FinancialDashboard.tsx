@@ -97,19 +97,19 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
             <h3 className="font-bold text-lg mb-1">{(ui[language as keyof typeof ui] || ui.English).verdict}</h3>
             <p className="text-sm font-medium mb-3">{data.verdictDescription}</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-              <div className="bg-white/60 dark:bg-[#1A1D24]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
+              <div className="bg-white/60 dark:bg-[#20242D]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
                 <p className="text-xs uppercase tracking-wider opacity-70">{(ui[language as keyof typeof ui] || ui.English).tp}</p>
                 <p className="font-bold">{formatCurrency(data.totalProjectCost)}</p>
               </div>
-              <div className="bg-white/60 dark:bg-[#1A1D24]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
+              <div className="bg-white/60 dark:bg-[#20242D]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
                 <div className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400">{(ui[language as keyof typeof ui] || ui.English).ue} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).ueInfo} /></div>
                 <p className="font-bold text-emerald-700 dark:text-emerald-400">{formatCurrency(data.userEquity)}</p>
               </div>
-              <div className="bg-white/60 dark:bg-[#1A1D24]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
+              <div className="bg-white/60 dark:bg-[#20242D]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
                 <p className="text-xs uppercase tracking-wider opacity-70">{(ui[language as keyof typeof ui] || ui.English).emi}</p>
                 <p className="font-bold text-blue-700 dark:text-blue-400">{formatCurrency(data.monthlyEMI)}</p>
               </div>
-              <div className="bg-white/60 dark:bg-[#1A1D24]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
+              <div className="bg-white/60 dark:bg-[#20242D]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
                 <div className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400">{(ui[language as keyof typeof ui] || ui.English).dscr} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).dscrInfo} /></div>
                 <p className="font-bold text-purple-700 dark:text-purple-400">{data.dscr}</p>
               </div>
@@ -121,7 +121,7 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* CapEx Breakdown */}
-        <div className="bg-white dark:bg-[#1A1D24] border border-gray-200 dark:border-slate-800 rounded-xl p-5 shadow-sm dark:shadow-none">
+        <div className="bg-white dark:bg-[#20242D] border border-gray-200 dark:border-slate-800 rounded-xl p-5 shadow-sm dark:shadow-none">
           <div className="flex items-center space-x-2 mb-4 border-b border-gray-100 dark:border-slate-800 pb-3">
             <PieIcon className="w-5 h-5 text-gray-500 dark:text-slate-400" />
             <h3 className="font-bold flex items-center">{(ui[language as keyof typeof ui] || ui.English).capex} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).capexInfo} /></h3>
@@ -152,7 +152,7 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
         </div>
 
         {/* Revenue Projection */}
-        <div className="bg-white dark:bg-[#1A1D24] border border-gray-200 dark:border-slate-800 rounded-xl p-5 shadow-sm dark:shadow-none">
+        <div className="bg-white dark:bg-[#20242D] border border-gray-200 dark:border-slate-800 rounded-xl p-5 shadow-sm dark:shadow-none">
           <div className="flex items-center justify-between mb-4 border-b border-gray-100 dark:border-slate-800 pb-3">
             <div className="flex items-center space-x-2">
               <TrendingUp className="w-5 h-5 text-gray-500 dark:text-slate-400" />
@@ -178,7 +178,7 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
       </div>
 
       {/* Break Even Slider */}
-      <div className="bg-white dark:bg-[#1A1D24] border border-gray-200 dark:border-slate-800 rounded-xl p-5 shadow-sm dark:shadow-none print:hidden">
+      <div className="bg-white dark:bg-[#20242D] border border-gray-200 dark:border-slate-800 rounded-xl p-5 shadow-sm dark:shadow-none print:hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between">
           <div className="flex items-center space-x-3 mb-4 md:mb-0">
             <div className="bg-blue-100 p-2 rounded-lg">

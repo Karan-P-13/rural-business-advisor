@@ -135,7 +135,7 @@ export default function RecommendationScreen({
     businessPlan.localDemandAssessment || businessPlan.demandAssessment || null;
 
   return (
-    <div className="bg-white dark:bg-[#1A1D24] rounded-xl shadow-sm dark:shadow-none border border-gray-200 dark:border-slate-800 overflow-hidden">
+    <div className="bg-white dark:bg-[#20242D] rounded-xl shadow-sm dark:shadow-none border border-gray-200 dark:border-slate-800 overflow-hidden">
 
       {/* Header */}
       <div className="bg-emerald-700 p-6 text-white relative">
@@ -147,7 +147,7 @@ export default function RecommendationScreen({
           <button
             onClick={toggleSpeech}
             className={`absolute top-6 right-6 flex items-center justify-center w-10 h-10 rounded-full shadow-lg transition-colors print:hidden ${
-              isPlaying ? 'bg-red-500 hover:bg-red-600' : 'bg-white dark:bg-[#1A1D24] text-emerald-700 hover:bg-gray-100'
+              isPlaying ? 'bg-red-500 hover:bg-red-600' : 'bg-white dark:bg-[#20242D] text-emerald-700 dark:text-emerald-400 hover:bg-gray-100'
             }`}
             title={t.readAloud}
           >
@@ -213,13 +213,13 @@ export default function RecommendationScreen({
           <div className="space-y-4">
             {(businessPlan.risks || businessPlan.keyRisks || []).map(
               (riskObj: { risk: string; mitigation: string }, idx: number) => (
-                <div key={idx} className="bg-white dark:bg-[#1A1D24] p-3 rounded-lg shadow-sm dark:shadow-none border border-red-100 dark:border-red-900/50">
+                <div key={idx} className="bg-white dark:bg-[#20242D] p-3 rounded-lg shadow-sm dark:shadow-none border border-red-100 dark:border-red-900/50">
                   <div className="flex items-start space-x-2 mb-2">
                     <Target className="w-3.5 h-3.5 text-red-500 mt-0.5 flex-shrink-0" />
                     <p className="text-sm font-bold text-red-800 dark:text-red-300">{riskObj.risk}</p>
                   </div>
                   <p className="text-sm text-gray-700 dark:text-slate-300 border-l-2 border-emerald-400 pl-2 ml-5">
-                    <span className="font-semibold text-emerald-700">{t.mitLbl}: </span>
+                    <span className="font-semibold text-emerald-700 dark:text-emerald-400">{t.mitLbl}: </span>
                     {riskObj.mitigation}
                   </p>
                 </div>
