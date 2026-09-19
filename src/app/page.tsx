@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import LZString from 'lz-string';
 import BusinessDashboard from '@/components/BusinessDashboard';
+import SwipeRow from '@/components/SwipeRow';
 import { extraPrompts } from "../lib/t";
 import { missingPrompts } from "../lib/t2";
-import { Volume2, Send, MapPin, Mic, Globe, Sparkles, User, Loader2, Plus, Menu, X, MessageSquare, Clock, Camera, Trash2 } from 'lucide-react';
+import { MoreVertical, Edit2, Share2, Download, Volume2, Send, MapPin, Mic, Globe, Sparkles, User, Loader2, Plus, Menu, Moon, Sun, X, MessageSquare, Clock, Camera, Trash2 } from 'lucide-react';
 
 type Language = string;
 type Step = 'LOCATION' | 'BUDGET' | 'SKILLS' | 'INTEREST' | 'COMPLETED';
@@ -129,6 +131,31 @@ export default function Home() {
   const [dynamicIdeas, setDynamicIdeas] = useState<string[]>([]);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    
+    const handleBeforePrint = () => document.documentElement.classList.remove('dark');
+    const handleAfterPrint = () => {
+      if (isDarkMode) document.documentElement.classList.add('dark');
+    };
+    
+    window.addEventListener('beforeprint', handleBeforePrint);
+    window.addEventListener('afterprint', handleAfterPrint);
+    window.addEventListener('preparePrint', handleBeforePrint);
+    
+    return () => {
+      window.removeEventListener('beforeprint', handleBeforePrint);
+      window.removeEventListener('afterprint', handleAfterPrint);
+      window.removeEventListener('preparePrint', handleBeforePrint);
+    };
+  }, [isDarkMode]);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [isLocating, setIsLocating] = useState(false);
   const [isListening, setIsListening] = useState(false);
 
@@ -437,6 +464,55 @@ export default function Home() {
     setDynamicIdeas([]);
   };
 
+  const deleteSession = (id: string) => {
+    if (window.confirm('Are you sure you want to delete this plan?')) {
+      const updated = sessions.filter(s => s.id !== id);
+      setSessions(updated);
+      localStorage.setItem('busidvice_sessions', JSON.stringify(updated));
+      
+    }
+  };
+
+  const renameSession = (id: string, currentTitle: string) => {
+    const newTitle = window.prompt("Enter new name for this plan:", currentTitle);
+    if (newTitle && newTitle.trim() !== "") {
+      const updated = sessions.map(s => s.id === id ? { ...s, title: newTitle.trim() } : s);
+      setSessions(updated);
+      localStorage.setItem('busidvice_sessions', JSON.stringify(updated));
+    }
+  };
+
+  const shareSession = async (s: Session) => {
+    try {
+      const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(s));
+      const shareUrl = `${window.location.origin}/?share=${compressed}`;
+      
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Link copied to clipboard! Anyone can use this link to view the full chat.');
+    } catch (err) {
+      console.log('Share failed:', err);
+      alert('Failed to copy link.');
+    }
+  };
+
+  const downloadSession = (session: Session) => {
+    loadSession(session);
+    window.dispatchEvent(new Event('preparePrint'));
+    setTimeout(() => {
+      const originalTitle = document.title;
+      document.title = session.title;
+      
+      const afterPrint = () => {
+        document.title = originalTitle;
+        window.dispatchEvent(new Event('afterPrint'));
+        window.removeEventListener('afterprint', afterPrint);
+      };
+      window.addEventListener('afterprint', afterPrint);
+      
+      window.print();
+    }, 500);
+  };
+
   const loadSession = (session: Session) => {
     setMessages(session.messages);
     setStep('COMPLETED');
@@ -452,37 +528,93 @@ export default function Home() {
   })();
 
   return (
-    <div className="flex h-dvh bg-slate-100 overflow-hidden">
+    <div className="flex h-dvh print:h-auto bg-slate-100 dark:bg-[#0D0F12] overflow-hidden print:overflow-visible print:block" onClick={() => setOpenMenuId(null)}>
 
       {/* Sidebar */}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsSidebarOpen(false)} />
-          <div className="relative w-72 bg-white h-full shadow-2xl flex flex-col z-10">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
-              <span className="font-bold text-[#14161C]">{(t[language as keyof typeof t] || t.English).prevPlans}</span>
-              <button onClick={() => setIsSidebarOpen(false)} className="text-slate-500 hover:text-[#14161C]">
+          <div className="relative w-72 bg-white dark:bg-[#1A1D24] h-full shadow-2xl dark:shadow-none flex flex-col z-10">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-800">
+              <span className="font-bold text-[#14161C] dark:text-white">{(t[language as keyof typeof t] || t.English).prevPlans}</span>
+              <button onClick={() => setIsSidebarOpen(false)} className="text-slate-500 dark:text-slate-400 hover:text-[#14161C]">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-3 space-y-2 flex flex-col">
               {sessions.length === 0 ? (
-                <p className="text-slate-500 text-sm text-center mt-8">{(t[language as keyof typeof t] || t.English).noPlans}</p>
+                <p className="text-slate-500 dark:text-slate-400 text-sm text-center mt-8">{(t[language as keyof typeof t] || t.English).noPlans}</p>
               ) : sessions.map(s => (
-                <button key={s.id} onClick={() => loadSession(s)}
-                  className="w-full text-left p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 transition-all group">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <MessageSquare className="w-3.5 h-3.5 text-emerald-600 group-hover:text-emerald-700" />
-                    <p className="text-sm font-semibold text-[#14161C] truncate">{s.title}</p>
+                <SwipeRow 
+                  key={s.id} 
+                  onCommit={() => deleteSession(s.id)}
+                  rowColor={isDarkMode ? '#14161C' : '#f8fafc'}
+                  textColor={isDarkMode ? '#ffffff' : '#0f172a'}
+                  drawerColor={isDarkMode ? '#1e293b' : '#e2e8f0'}
+                  height={68}
+                  radius={12}
+                  style={{ marginBottom: '8px' }}
+                >
+                  <div className="w-full flex items-start justify-between relative h-full w-full" onClick={() => loadSession(s)}>
+                  
+                  <div className="flex-1 min-w-0 pr-2">
+                    <div className="flex items-center space-x-2 mb-1">
+                      
+                      <p className="text-sm font-semibold text-[#14161C] dark:text-white truncate">{s.title}</p>
+                    </div>
+                    <div className="flex items-center space-x-1 text-xs text-slate-500 dark:text-slate-400">
+                      <Clock className="w-3 h-3" />
+                      <span>{new Date(s.date).toLocaleDateString()}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-1 text-xs text-slate-500">
-                    <Clock className="w-3 h-3" />
-                    <span>{new Date(s.date).toLocaleDateString()}</span>
+
+                  {/* Three Dot Menu Button */}
+                  <button 
+                    onClick={(e) => { 
+                      e.stopPropagation(); 
+                      setOpenMenuId(openMenuId === s.id ? null : s.id); 
+                    }}
+                    className="p-1.5 text-slate-400 hover:text-slate-800 hover:bg-slate-200 rounded-full hover:scale-105 active:scale-95 transition-all duration-200"
+                    title="Options"
+                  >
+                    <MoreVertical className="w-4 h-4" />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {openMenuId === s.id && (
+                    <div className="absolute right-2 top-10 mt-1 w-36 bg-white dark:bg-[#1A1D24] border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl dark:shadow-none py-1 z-50 overflow-hidden">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setOpenMenuId(null); renameSession(s.id, s.title); }}
+                        className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#14161C] flex items-center gap-2"
+                      >
+                        <Edit2 className="w-3.5 h-3.5 text-slate-400" /> Rename
+                      </button>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setOpenMenuId(null); shareSession(s); }}
+                        className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#14161C] flex items-center gap-2"
+                      >
+                        <Share2 className="w-3.5 h-3.5 text-slate-400" /> Share
+                      </button>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setOpenMenuId(null); downloadSession(s); }}
+                        className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#14161C] flex items-center gap-2"
+                      >
+                        <Download className="w-3.5 h-3.5 text-slate-400" /> Download
+                      </button>
+                      <div className="h-px bg-slate-100 dark:bg-[#0D0F12] my-1"></div>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setOpenMenuId(null); deleteSession(s.id); }}
+                        className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 flex items-center gap-2 font-medium"
+                      >
+                        <Trash2 className="w-3.5 h-3.5 text-red-500" /> Clear
+                      </button>
+                    </div>
+                  )}
                   </div>
-                </button>
+                </SwipeRow>
               ))}
-              <div className="p-4 border-t border-slate-200 mt-auto">
-                <button onClick={() => { if(window.confirm('Are you sure you want to delete all saved plans?')) { localStorage.removeItem('busidvice_sessions'); setSessions([]); } }} className="w-full py-2.5 px-4 bg-white border border-red-200 text-red-600 rounded-xl font-medium text-sm hover:bg-red-50 flex items-center justify-center gap-2 transition-all shadow-sm">
+              <div className="p-4 border-t border-slate-200 dark:border-slate-800 mt-auto">
+                <button onClick={() => { if(window.confirm('Are you sure you want to delete all saved plans?')) { localStorage.removeItem('busidvice_sessions'); setSessions([]); } }} className="w-full py-2.5 px-4 bg-white dark:bg-[#1A1D24] border border-red-200 text-red-600 rounded-xl font-medium text-sm hover:bg-red-50 dark:hover:bg-red-950/30 flex items-center justify-center gap-2 transition-all shadow-sm dark:shadow-none">
                   <Trash2 className="w-4 h-4" />
                   Clear Saved Plans
                 </button>
@@ -493,37 +625,37 @@ export default function Home() {
       )}
 
       {/* Main Chat Area */}
-      <div className="flex flex-col flex-1 min-w-0">
+      <div className="flex flex-col flex-1 min-w-0 print:block print:overflow-visible">
 
         {/* Header */}
-        <header className="flex items-center justify-between px-4 py-3 bg-white/80 backdrop-blur-xl border-b border-slate-200/80 shadow-sm flex-shrink-0">
+        <header className="flex items-center justify-between px-4 py-3 bg-white/80 dark:bg-[#1A1D24]/80 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 shadow-sm dark:shadow-none flex-shrink-0 print:hidden">
           <div className="flex items-center space-x-3">
-            <button onClick={() => setIsSidebarOpen(true)} className="p-1.5 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors">
+            <button onClick={() => setIsSidebarOpen(true)} className="p-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 transition-colors">
               <Menu className="w-5 h-5" />
             </button>
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-xl bg-[#14161C] flex items-center justify-center shadow-md">
+              <div className="w-8 h-8 rounded-xl bg-[#14161C] flex items-center justify-center shadow-md dark:shadow-none">
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
-              <span className="font-bold text-slate-900 text-base tracking-tight">BusiDvice</span>
+              <span className="font-bold text-slate-900 dark:text-white text-base tracking-tight">BusiDvice</span>
             </div>
+            
+            
           </div>
           <div className="flex items-center space-x-2">
-            {messages.length > 1 && (
-              <button
-                onClick={handleReset}
-                title="New Chat"
-                className="flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-medium hover:bg-emerald-100 transition-colors"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>New</span>
-              </button>
-            )}
+            <button 
+              onClick={() => setIsDarkMode(!isDarkMode)} 
+              className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1A1D24] transition-colors mr-2"
+              title="Toggle Dark Mode"
+            >
+              {isDarkMode ? <Moon className="w-5 h-5" strokeWidth={1.5} /> : <Sun className="w-5 h-5" />}
+            </button>
+            
             <Globe className="w-4 h-4 text-slate-400" />
             <select
               value={language}
               onChange={e => setLanguage(e.target.value as Language)}
-              className="text-sm bg-transparent text-slate-700 font-medium border-none outline-none cursor-pointer pr-1"
+              className="text-sm bg-transparent text-slate-700 dark:text-slate-300 font-medium border-none outline-none cursor-pointer pr-1"
             >
               {["English", "Hindi", "Bengali", "Telugu", "Marathi", "Tamil", "Urdu", "Gujarati", "Malayalam", "Kannada", "Odia", "Punjabi", "Assamese", "Maithili", "Sanskrit", "Sindhi", "Kashmiri", "Konkani", "Nepali", "Manipuri", "Bodo", "Dogri", "Santali"].map(lang => (
                 <option key={lang} value={lang}>{lang}</option>
@@ -533,11 +665,11 @@ export default function Home() {
         </header>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-          {messages.map((msg) => {
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 print:overflow-visible print:block">
+          {messages.map((msg, index) => {
             if (msg.isDashboard && msg.dashboardData) {
               return (
-                <div key={msg.id} className="w-full rounded-2xl overflow-hidden border border-slate-200 shadow-lg bg-white" style={{ minHeight: 500 }}>
+                <div key={msg.id} className={`w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-lg dark:shadow-none bg-white dark:bg-[#1A1D24] ${index === messages.findLastIndex(m => m.isDashboard) ? 'print:overflow-visible print:block' : 'print:hidden'}`} style={{ minHeight: 500 }}>
                   <BusinessDashboard
                     businessPlan={msg.dashboardData.plan}
                     financialData={msg.dashboardData.financials}
@@ -552,18 +684,18 @@ export default function Home() {
             const text = resolveText(msg);
 
             return (
-              <div key={msg.id} className={`flex items-end gap-2.5 ${isBot ? '' : 'flex-row-reverse'}`}>
-                <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-sm ${isBot ? 'bg-[#14161C]' : 'bg-[#6366F1]'}`}>
+              <div key={msg.id} className={`flex items-end gap-2.5 ${isBot ? "" : "flex-row-reverse"} print:hidden`}>
+                <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-sm dark:shadow-none ${isBot ? 'bg-[#14161C]' : 'bg-[#6366F1]'}`}>
                   {isBot ? <Sparkles className="w-4 h-4 text-white" /> : <User className="w-4 h-4 text-white" />}
                 </div>
                 <div className="flex flex-col gap-1 max-w-[80%]">
-                  <div className={`px-4 py-3 rounded-2xl shadow-[0_1px_2px_rgba(20,22,28,0.05)] text-[14px] leading-relaxed whitespace-pre-wrap ${isBot ? 'bg-white text-[#14161C] rounded-bl-sm border border-[#E8E8E4]' : 'bg-[#6366F1] text-white rounded-br-sm'}`}>
+                  <div className={`px-4 py-3 rounded-2xl shadow-[0_1px_2px_rgba(20,22,28,0.05)] text-[14px] leading-relaxed whitespace-pre-wrap ${isBot ? 'bg-white dark:bg-[#1A1D24] text-[#14161C] dark:text-white rounded-bl-sm border border-[#E8E8E4] dark:border-slate-800' : 'bg-[#6366F1] text-white rounded-br-sm'}`}>
                     {text}
                   </div>
                   {isBot && (
                     <button 
                       onClick={() => handleSpeak(text || '', msg.id)}
-                      className={`self-start flex items-center gap-1 px-2 py-1 rounded-md text-xs transition-colors ${playingMessageId === msg.id ? 'text-indigo-600 bg-indigo-50' : 'text-slate-400 hover:text-indigo-600 hover:bg-indigo-50'}`}
+                      className={`self-start flex items-center gap-1 px-2 py-1 rounded-md text-xs transition-colors ${playingMessageId === msg.id ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30' : 'text-slate-400 hover:text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:bg-indigo-950/30'}`}
                     >
                       <Volume2 className="w-3.5 h-3.5" />
                       {playingMessageId === msg.id ? (t[language as keyof typeof t] || t.English).stop || 'Stop' : (t[language as keyof typeof t] || t.English).readAloud || 'Read Aloud'}
@@ -576,12 +708,14 @@ export default function Home() {
 
           {isLoading && (
             <div className="flex items-end gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#14161C] flex items-center justify-center shadow-sm">
+              <div className="w-8 h-8 rounded-full bg-[#14161C] flex items-center justify-center shadow-sm dark:shadow-none">
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
-              <div className="bg-white border border-slate-200 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm flex items-center space-x-2">
-                <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
-                <span className="text-sm text-slate-600">{loadingText || '...'}</span>
+              <div className="bg-white dark:bg-[#1A1D24] border border-slate-200 dark:border-slate-800 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm dark:shadow-none flex items-center space-x-2">
+                <span className="text-sm text-slate-600 dark:text-slate-400 font-mono flex items-baseline">
+                  {loadingText || 'Thinking'}
+                  <span className="inline-block w-[1ch] h-[2px] bg-emerald-600 ml-[2px] animate-blink" style={{ transform: 'translateY(-2px)' }} />
+                </span>
               </div>
             </div>
           )}
@@ -595,7 +729,7 @@ export default function Home() {
               <button
                 key={opt}
                 onClick={() => handleSend(opt)}
-                className="flex-shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium bg-white border border-emerald-300 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-500 active:scale-95 transition-all shadow-sm whitespace-nowrap"
+                className="flex-shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-[#1A1D24] border border-emerald-300 dark:border-emerald-700/50 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 dark:hover:bg-emerald-900/30 hover:border-emerald-500 dark:hover:border-emerald-500 active:scale-95 transition-all shadow-sm dark:shadow-none whitespace-nowrap"
               >
                 {opt}
               </button>
@@ -609,7 +743,7 @@ export default function Home() {
             <button
               onClick={fetchLocation}
               disabled={isLocating}
-              className="w-full flex items-center justify-center space-x-2 py-3 rounded-2xl bg-[#14161C] text-white font-semibold text-sm shadow-lg hover:from-emerald-600 hover:to-teal-600 active:scale-98 transition-all disabled:opacity-60"
+              className="w-full flex items-center justify-center space-x-2 py-3 rounded-2xl bg-[#14161C] text-white font-semibold text-sm shadow-lg dark:shadow-none hover:from-emerald-600 hover:to-teal-600 active:scale-98 transition-all disabled:opacity-60"
             >
               {isLocating ? <Loader2 className="w-4 h-4 animate-spin" /> : <MapPin className="w-4 h-4" />}
               <span>{isLocating ? (t[language as keyof typeof t] || t.English).locating : (t[language as keyof typeof t] || t.English).sendLocation}</span>
@@ -618,7 +752,7 @@ export default function Home() {
         )}
 
         {/* Bottom Input Bar */}
-        <div className="flex-shrink-0 bg-white/80 backdrop-blur-xl border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-4 py-3 pb-safe">
+        <div className="flex-shrink-0 bg-white/80 dark:bg-[#1A1D24]/80 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800/80 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-4 py-3 pb-safe">
           <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="flex items-center gap-2">
 
             {step === 'COMPLETED' ? (
@@ -627,14 +761,14 @@ export default function Home() {
                 <Plus className="w-5 h-5" />
               </button>
             ) : (
-              <div className="flex-1 flex items-center bg-slate-100 rounded-2xl px-4 py-2 gap-2 focus-within:ring-2 focus-within:ring-emerald-400 transition-all">
+              <div className="flex-1 flex items-center bg-slate-100 dark:bg-[#0D0F12] rounded-2xl px-4 py-2 gap-2 focus-within:ring-2 focus-within:ring-emerald-400 transition-all">
                 <input
                   type="text"
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   placeholder={(t[language as keyof typeof t] || t.English).typeAnswer}
                   disabled={isLoading}
-                  className="flex-1 bg-transparent text-sm text-[#14161C] placeholder-[#6B7080] outline-none min-w-0"
+                  className="flex-1 bg-transparent text-sm text-[#14161C] dark:text-white placeholder-[#6B7080] outline-none min-w-0"
                 />
 
                 <input type="file" accept="image/*" ref={fileInputRef} className="hidden" onChange={handleFileUpload} />
@@ -651,7 +785,7 @@ export default function Home() {
 
             {step !== 'COMPLETED' && (
               <button type="submit" disabled={!input.trim() || isLoading}
-                className="p-2.5 rounded-full transition-all flex-shrink-0 disabled:opacity-40 bg-[#14161C] text-white shadow-md hover:bg-[#2b2f3a] active:scale-95">
+                className="p-2.5 rounded-full transition-all flex-shrink-0 disabled:opacity-40 bg-[#14161C] text-white shadow-md dark:shadow-none hover:bg-[#2b2f3a] active:scale-95">
                 <Send className="w-5 h-5" />
               </button>
             )}

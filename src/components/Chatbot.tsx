@@ -147,15 +147,15 @@ export default function Chatbot({ onComplete }: ChatbotProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white shadow-xl">
+    <div className="flex flex-col h-full bg-white dark:bg-[#1A1D24] shadow-xl dark:shadow-none">
       {/* Header */}
-      <div className="bg-emerald-700 text-white p-6 shadow-md flex-shrink-0">
+      <div className="bg-emerald-700 text-white p-6 shadow-md dark:shadow-none flex-shrink-0">
         <h2 className="text-xl font-bold tracking-tight mb-1">BusiDvice</h2>
         <p className="text-emerald-100 text-sm opacity-90">SIH26091 - Micro-Enterprise Assistant</p>
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-[#14161C]">
         {messages.map((msg) => (
           <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[85%] rounded-2xl p-4 shadow-sm ${
@@ -177,7 +177,7 @@ export default function Chatbot({ onComplete }: ChatbotProps) {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 bg-white border-t border-gray-200 flex-shrink-0">
+      <div className="p-4 bg-white dark:bg-[#1A1D24] border-t border-gray-200 dark:border-slate-800 flex-shrink-0">
         {step === 'LOCATION' && (
           <div className="mb-3 flex gap-2">
             <button
@@ -202,7 +202,7 @@ export default function Chatbot({ onComplete }: ChatbotProps) {
             onChange={(e) => setInput(e.target.value)}
             disabled={step === 'COMPLETED'}
             placeholder={step === 'COMPLETED' ? "Processing..." : "Type or speak your answer..."}
-            className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-0 focus:border-emerald-600 text-sm bg-gray-50 disabled:bg-gray-100 pr-12 transition-colors"
+            className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-0 focus:border-emerald-600 text-sm bg-gray-50 dark:bg-[#14161C] disabled:bg-gray-100 pr-12 transition-colors"
           />
           <button
             type="button"
@@ -217,7 +217,7 @@ export default function Chatbot({ onComplete }: ChatbotProps) {
           <button
             type="submit"
             disabled={step === 'COMPLETED' || !input.trim()}
-            className="bg-emerald-600 text-white p-3 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50 shadow-md flex-shrink-0"
+            className="bg-emerald-600 text-white p-3 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50 shadow-md dark:shadow-none flex-shrink-0"
           >
             <Send className="w-5 h-5" />
           </button>
@@ -225,7 +225,7 @@ export default function Chatbot({ onComplete }: ChatbotProps) {
 
         {/* Demo Presets */}
         {step === 'LOCATION' && (
-          <div className="flex flex-wrap gap-2 pt-3 mt-3 border-t border-gray-100 justify-center">
+          <div className="flex flex-wrap gap-2 pt-3 mt-3 border-t border-gray-100 dark:border-slate-800 justify-center">
             <button
               type="button"
               onClick={() => onComplete({ location: "Madurai, Tamil Nadu", budget: "50000", skills: "Farming, Animal Husbandry", interest: "Poultry Farming" })}

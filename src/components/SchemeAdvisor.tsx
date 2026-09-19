@@ -128,12 +128,12 @@ export default function SchemeAdvisor({
     <div className="space-y-6">
 
       {/* Header */}
-      <div className="bg-white p-5 rounded-xl border border-blue-100 shadow-sm">
+      <div className="bg-white dark:bg-[#1A1D24] p-5 rounded-xl border border-blue-100 dark:border-blue-900/50 shadow-sm dark:shadow-none">
         <div className="flex items-center space-x-3 mb-2">
           <Landmark className="w-6 h-6 text-blue-600" />
-          <h2 className="text-xl font-bold text-gray-900">{t.title}</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t.title}</h2>
         </div>
-        <p className="text-sm text-gray-500">{t.sub}</p>
+        <p className="text-sm text-gray-500 dark:text-slate-400">{t.sub}</p>
         <p className="text-xs text-emerald-700 font-semibold mt-2">
           {schemes.length} scheme{schemes.length > 1 ? 's' : ''} matched ✅
         </p>
@@ -144,21 +144,21 @@ export default function SchemeAdvisor({
         {schemes.map((scheme, idx) => (
           <div
             key={idx}
-            className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+            className="bg-white dark:bg-[#1A1D24] border border-gray-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm dark:shadow-none hover:shadow-md transition-shadow"
           >
             {/* Card Header */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 p-4">
+            <div className="bg-gradient-to-r from-blue-50 dark:from-blue-950/30 to-indigo-50 dark:to-indigo-950/30 border-b border-blue-100 dark:border-blue-900/50 p-4">
               <div className="flex justify-between items-start flex-wrap gap-2">
                 <div>
-                  <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded mb-2">
+                  <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 text-xs font-bold rounded mb-2">
                     {scheme.level === 'State'
                       ? `${scheme.state} ${t.state}`
                       : `🇮🇳 ${t.central}`}
                   </span>
-                  <h3 className="font-bold text-lg text-gray-900">{scheme.name}</h3>
+                  <h3 className="font-bold text-lg text-gray-900 dark:text-white">{scheme.name}</h3>
                 </div>
                 {scheme.collateralFree && (
-                  <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded">
+                  <span className="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 text-xs font-bold rounded">
                     ✅ {t.free}
                   </span>
                 )}
@@ -166,21 +166,21 @@ export default function SchemeAdvisor({
 
               {/* Why You Matched Badges */}
               <div className="mt-3">
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">
+                <p className="text-xs font-bold text-gray-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">
                   {t.whyMatch}
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="flex items-center space-x-1 bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full font-semibold">
+                  <span className="flex items-center space-x-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 text-xs px-2 py-1 rounded-full font-semibold">
                     <DollarSign className="w-3 h-3" />
                     <span>{t.costMatch}</span>
                   </span>
                   {scheme.level === 'State' && (
-                    <span className="flex items-center space-x-1 bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-semibold">
+                    <span className="flex items-center space-x-1 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 text-xs px-2 py-1 rounded-full font-semibold">
                       <MapPin className="w-3 h-3" />
                       <span>{t.locMatch}</span>
                     </span>
                   )}
-                  <span className="flex items-center space-x-1 bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full font-semibold">
+                  <span className="flex items-center space-x-1 bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300 text-xs px-2 py-1 rounded-full font-semibold">
                     <Tag className="w-3 h-3" />
                     <span>{t.sectorMatch}</span>
                   </span>
@@ -191,21 +191,21 @@ export default function SchemeAdvisor({
             {/* Card Body */}
             <div className="p-5">
               <div className="grid grid-cols-2 gap-4 mb-5">
-                <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                  <p className="text-xs text-gray-500 uppercase font-semibold mb-1">{t.max}</p>
-                  <p className="font-bold text-gray-900 text-sm">
+                <div className="bg-gray-50 dark:bg-[#14161C] p-3 rounded-lg border border-gray-100 dark:border-slate-800">
+                  <p className="text-xs text-gray-500 dark:text-slate-400 uppercase font-semibold mb-1">{t.max}</p>
+                  <p className="font-bold text-gray-900 dark:text-white text-sm">
                     ₹{scheme.maxLoan.toLocaleString('en-IN')}
                   </p>
                 </div>
-                <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                  <p className="text-xs text-gray-500 uppercase font-semibold mb-1">{t.subPct}</p>
-                  <p className="font-bold text-gray-900 text-xs leading-snug">{scheme.subsidyPercentage}</p>
+                <div className="bg-gray-50 dark:bg-[#14161C] p-3 rounded-lg border border-gray-100 dark:border-slate-800">
+                  <p className="text-xs text-gray-500 dark:text-slate-400 uppercase font-semibold mb-1">{t.subPct}</p>
+                  <p className="font-bold text-gray-900 dark:text-white text-xs leading-snug">{scheme.subsidyPercentage}</p>
                 </div>
               </div>
 
               {/* Eligibility */}
               <div className="mb-4">
-                <h4 className="flex items-center text-sm font-bold text-gray-700 mb-2">
+                <h4 className="flex items-center text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 mr-1.5 flex-shrink-0" />
                   {t.elig}
                 </h4>
@@ -218,7 +218,7 @@ export default function SchemeAdvisor({
 
               {/* Documents */}
               <div className="mb-5">
-                <h4 className="flex items-center text-sm font-bold text-gray-700 mb-2">
+                <h4 className="flex items-center text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">
                   <FileText className="w-4 h-4 text-blue-500 mr-1.5 flex-shrink-0" />
                   {t.doc}
                 </h4>
@@ -226,7 +226,7 @@ export default function SchemeAdvisor({
                   {scheme.documents?.map((doc: string, i: number) => (
                     <span
                       key={i}
-                      className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded border border-gray-200"
+                      className="bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 text-xs px-2 py-1 rounded border border-gray-200 dark:border-slate-800"
                     >
                       {doc}
                     </span>

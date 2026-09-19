@@ -135,7 +135,7 @@ export default function RecommendationScreen({
     businessPlan.localDemandAssessment || businessPlan.demandAssessment || null;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div className="bg-white dark:bg-[#1A1D24] rounded-xl shadow-sm dark:shadow-none border border-gray-200 dark:border-slate-800 overflow-hidden">
 
       {/* Header */}
       <div className="bg-emerald-700 p-6 text-white relative">
@@ -147,7 +147,7 @@ export default function RecommendationScreen({
           <button
             onClick={toggleSpeech}
             className={`absolute top-6 right-6 flex items-center justify-center w-10 h-10 rounded-full shadow-lg transition-colors print:hidden ${
-              isPlaying ? 'bg-red-500 hover:bg-red-600' : 'bg-white text-emerald-700 hover:bg-gray-100'
+              isPlaying ? 'bg-red-500 hover:bg-red-600' : 'bg-white dark:bg-[#1A1D24] text-emerald-700 hover:bg-gray-100'
             }`}
             title={t.readAloud}
           >
@@ -167,22 +167,22 @@ export default function RecommendationScreen({
         <div className="space-y-6">
 
           {/* Demand Score */}
-          <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
+          <div className="bg-gray-50 dark:bg-[#14161C] rounded-xl p-5 border border-gray-100 dark:border-slate-800">
             <div className="flex items-center space-x-2 mb-3">
               <Activity className="w-5 h-5 text-emerald-600" />
-              <h3 className="font-bold text-gray-800">{t.feas}</h3>
+              <h3 className="font-bold text-gray-800 dark:text-slate-200">{t.feas}</h3>
             </div>
-            <p className="text-xs text-gray-500 mb-1 uppercase tracking-wider font-semibold">{t.score}</p>
+            <p className="text-xs text-gray-500 dark:text-slate-400 mb-1 uppercase tracking-wider font-semibold">{t.score}</p>
             <DemandScoreBar score={rawScore} />
 
             {/* Local demand assessment text */}
             {demandAssessment && (
-              <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-slate-800">
                 <div className="flex items-center space-x-1 mb-2">
                   <TrendingUp className="w-4 h-4 text-blue-500" />
                   <p className="text-xs font-bold text-blue-700 uppercase tracking-wider">{t.demandLbl}</p>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed">{demandAssessment}</p>
+                <p className="text-sm text-gray-700 dark:text-slate-300 leading-relaxed">{demandAssessment}</p>
               </div>
             )}
           </div>
@@ -191,13 +191,13 @@ export default function RecommendationScreen({
           <div>
             <div className="flex items-center space-x-2 mb-3">
               <Lightbulb className="w-5 h-5 text-amber-500" />
-              <h3 className="font-bold text-gray-800">{t.opp}</h3>
+              <h3 className="font-bold text-gray-800 dark:text-slate-200">{t.opp}</h3>
             </div>
             <ul className="space-y-2">
               {(businessPlan.opportunities || []).map((opp: string, idx: number) => (
                 <li key={idx} className="flex items-start">
                   <span className="text-amber-500 mr-2 mt-0.5 flex-shrink-0">•</span>
-                  <span className="text-gray-700 text-sm leading-snug">{opp}</span>
+                  <span className="text-gray-700 dark:text-slate-300 text-sm leading-snug">{opp}</span>
                 </li>
               ))}
             </ul>
@@ -205,20 +205,20 @@ export default function RecommendationScreen({
         </div>
 
         {/* Right Column — Risks */}
-        <div className="bg-red-50/50 rounded-xl p-5 border border-red-100">
+        <div className="bg-red-50/50 dark:bg-red-950/20 rounded-xl p-5 border border-red-100 dark:border-red-900/50">
           <div className="flex items-center space-x-2 mb-4">
             <AlertTriangle className="w-5 h-5 text-red-500" />
-            <h3 className="font-bold text-gray-800">{t.risk}</h3>
+            <h3 className="font-bold text-gray-800 dark:text-slate-200">{t.risk}</h3>
           </div>
           <div className="space-y-4">
             {(businessPlan.risks || businessPlan.keyRisks || []).map(
               (riskObj: { risk: string; mitigation: string }, idx: number) => (
-                <div key={idx} className="bg-white p-3 rounded-lg shadow-sm border border-red-100">
+                <div key={idx} className="bg-white dark:bg-[#1A1D24] p-3 rounded-lg shadow-sm dark:shadow-none border border-red-100 dark:border-red-900/50">
                   <div className="flex items-start space-x-2 mb-2">
                     <Target className="w-3.5 h-3.5 text-red-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-sm font-bold text-red-800">{riskObj.risk}</p>
+                    <p className="text-sm font-bold text-red-800 dark:text-red-300">{riskObj.risk}</p>
                   </div>
-                  <p className="text-sm text-gray-700 border-l-2 border-emerald-400 pl-2 ml-5">
+                  <p className="text-sm text-gray-700 dark:text-slate-300 border-l-2 border-emerald-400 pl-2 ml-5">
                     <span className="font-semibold text-emerald-700">{t.mitLbl}: </span>
                     {riskObj.mitigation}
                   </p>

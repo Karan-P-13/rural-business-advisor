@@ -36,8 +36,8 @@ Object.keys(extraPrompts).forEach(lang => { ui[lang] = extraPrompts[lang].fin; }
 
 const InfoTooltip = ({ text }: { text: string }) => (
   <div className="group relative inline-flex items-center justify-center ml-1 cursor-help">
-    <div className="w-4 h-4 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px] font-bold border border-slate-300">?</div>
-    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
+    <div className="w-4 h-4 rounded-full bg-slate-200 text-slate-500 dark:text-slate-400 flex items-center justify-center text-[10px] font-bold border border-slate-300">?</div>
+    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-xs rounded-lg shadow-xl dark:shadow-none opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-center pointer-events-none">
       {text}
       <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-slate-800"></div>
     </div>
@@ -75,9 +75,9 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
   }));
 
   const getVerdictStyle = (verdict: string) => {
-    if (verdict?.includes('Highly')) return 'bg-emerald-50 border-emerald-200 text-emerald-800';
-    if (verdict?.includes('Moderate')) return 'bg-yellow-50 border-yellow-200 text-yellow-800';
-    return 'bg-red-50 border-red-200 text-red-800';
+    if (verdict?.includes('Highly')) return 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-300';
+    if (verdict?.includes('Moderate')) return 'bg-yellow-50 dark:bg-yellow-950/30 border-yellow-200 dark:border-yellow-900/50 text-yellow-800 dark:text-yellow-300';
+    return 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900/50 text-red-800 dark:text-red-300';
   };
 
   return (
@@ -97,21 +97,21 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
             <h3 className="font-bold text-lg mb-1">{(ui[language as keyof typeof ui] || ui.English).verdict}</h3>
             <p className="text-sm font-medium mb-3">{data.verdictDescription}</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-              <div className="bg-white/60 p-3 rounded-lg border border-black/5">
+              <div className="bg-white/60 dark:bg-[#1A1D24]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
                 <p className="text-xs uppercase tracking-wider opacity-70">{(ui[language as keyof typeof ui] || ui.English).tp}</p>
                 <p className="font-bold">{formatCurrency(data.totalProjectCost)}</p>
               </div>
-              <div className="bg-white/60 p-3 rounded-lg border border-black/5">
-                <div className="flex items-center text-sm font-medium text-slate-500">{(ui[language as keyof typeof ui] || ui.English).ue} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).ueInfo} /></div>
-                <p className="font-bold text-emerald-700">{formatCurrency(data.userEquity)}</p>
+              <div className="bg-white/60 dark:bg-[#1A1D24]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
+                <div className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400">{(ui[language as keyof typeof ui] || ui.English).ue} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).ueInfo} /></div>
+                <p className="font-bold text-emerald-700 dark:text-emerald-400">{formatCurrency(data.userEquity)}</p>
               </div>
-              <div className="bg-white/60 p-3 rounded-lg border border-black/5">
+              <div className="bg-white/60 dark:bg-[#1A1D24]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
                 <p className="text-xs uppercase tracking-wider opacity-70">{(ui[language as keyof typeof ui] || ui.English).emi}</p>
-                <p className="font-bold text-blue-700">{formatCurrency(data.monthlyEMI)}</p>
+                <p className="font-bold text-blue-700 dark:text-blue-400">{formatCurrency(data.monthlyEMI)}</p>
               </div>
-              <div className="bg-white/60 p-3 rounded-lg border border-black/5">
-                <div className="flex items-center text-sm font-medium text-slate-500">{(ui[language as keyof typeof ui] || ui.English).dscr} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).dscrInfo} /></div>
-                <p className="font-bold text-purple-700">{data.dscr}</p>
+              <div className="bg-white/60 dark:bg-[#1A1D24]/60 p-3 rounded-lg border border-black/5 dark:border-white/5">
+                <div className="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400">{(ui[language as keyof typeof ui] || ui.English).dscr} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).dscrInfo} /></div>
+                <p className="font-bold text-purple-700 dark:text-purple-400">{data.dscr}</p>
               </div>
             </div>
           </div>
@@ -121,15 +121,15 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* CapEx Breakdown */}
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-          <div className="flex items-center space-x-2 mb-4 border-b border-gray-100 pb-3">
-            <PieIcon className="w-5 h-5 text-gray-500" />
+        <div className="bg-white dark:bg-[#1A1D24] border border-gray-200 dark:border-slate-800 rounded-xl p-5 shadow-sm dark:shadow-none">
+          <div className="flex items-center space-x-2 mb-4 border-b border-gray-100 dark:border-slate-800 pb-3">
+            <PieIcon className="w-5 h-5 text-gray-500 dark:text-slate-400" />
             <h3 className="font-bold flex items-center">{(ui[language as keyof typeof ui] || ui.English).capex} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).capexInfo} /></h3>
           </div>
           <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
+            <div className="w-full h-full flex items-center justify-center overflow-hidden print:block print:w-[500px] print:mx-auto">
+            <PieChart width={500} height={300}>
+                <Pie isAnimationActive={false}
                   data={capExData}
                   cx="50%"
                   cy="40%"
@@ -147,50 +147,50 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
                 <Tooltip formatter={(value: any) => formatCurrency(Number(value))} />
                 <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
               </PieChart>
-            </ResponsiveContainer>
+            </div>
           </div>
         </div>
 
         {/* Revenue Projection */}
-        <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-          <div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-3">
+        <div className="bg-white dark:bg-[#1A1D24] border border-gray-200 dark:border-slate-800 rounded-xl p-5 shadow-sm dark:shadow-none">
+          <div className="flex items-center justify-between mb-4 border-b border-gray-100 dark:border-slate-800 pb-3">
             <div className="flex items-center space-x-2">
-              <TrendingUp className="w-5 h-5 text-gray-500" />
-              <h3 className="font-bold text-gray-800">{(ui[language as keyof typeof ui] || ui.English).rev}</h3>
+              <TrendingUp className="w-5 h-5 text-gray-500 dark:text-slate-400" />
+              <h3 className="font-bold text-gray-800 dark:text-slate-200">{(ui[language as keyof typeof ui] || ui.English).rev}</h3>
             </div>
           </div>
           <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={profitLossData}>
+            <div className="w-full h-full flex items-center justify-center overflow-hidden print:block print:w-[500px] print:mx-auto">
+            <BarChart width={500} height={300} data={profitLossData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" tick={{fontSize: 12}} />
                 <YAxis tickFormatter={(value) => `₹${value/1000}k`} tick={{fontSize: 12}} />
                 {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 <Tooltip formatter={(value: any) => formatCurrency(Number(value))} />
                 <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
-                <Bar dataKey="Revenue" fill="#10b981" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Expenses" fill="#f43f5e" radius={[4, 4, 0, 0]} />
+                <Bar isAnimationActive={false} dataKey="Revenue" fill="#10b981" radius={[4, 4, 0, 0]} />
+                <Bar isAnimationActive={false} dataKey="Expenses" fill="#f43f5e" radius={[4, 4, 0, 0]} />
               </BarChart>
-            </ResponsiveContainer>
+            </div>
           </div>
         </div>
 
       </div>
 
       {/* Break Even Slider */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm print:hidden">
+      <div className="bg-white dark:bg-[#1A1D24] border border-gray-200 dark:border-slate-800 rounded-xl p-5 shadow-sm dark:shadow-none print:hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between">
           <div className="flex items-center space-x-3 mb-4 md:mb-0">
             <div className="bg-blue-100 p-2 rounded-lg">
               <SlidersHorizontal className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h4 className="font-bold text-gray-800">{(ui[language as keyof typeof ui] || ui.English).stress}</h4>
-              <p className="text-sm text-gray-500">{(ui[language as keyof typeof ui] || ui.English).adjust}</p>
+              <h4 className="font-bold text-gray-800 dark:text-slate-200">{(ui[language as keyof typeof ui] || ui.English).stress}</h4>
+              <p className="text-sm text-gray-500 dark:text-slate-400">{(ui[language as keyof typeof ui] || ui.English).adjust}</p>
             </div>
           </div>
           <div className="flex-1 max-w-md mx-auto md:mx-0 md:ml-8 w-full">
-            <div className="flex justify-between text-xs font-semibold text-gray-500 mb-2">
+            <div className="flex justify-between text-xs font-semibold text-gray-500 dark:text-slate-400 mb-2">
               <span>{(ui[language as keyof typeof ui] || ui.English).worst}</span>
               <span className="text-blue-600">{(ui[language as keyof typeof ui] || ui.English).expect}</span>
               <span>{(ui[language as keyof typeof ui] || ui.English).best}</span>
@@ -206,17 +206,17 @@ export default function FinancialDashboard({ data, language = "English" }: { dat
             />
           </div>
         </div>
-        <div className="mt-6 bg-gray-50 rounded-lg p-4 flex flex-col md:flex-row justify-around items-center border border-gray-100 text-center">
+        <div className="mt-6 bg-gray-50 dark:bg-[#14161C] rounded-lg p-4 flex flex-col md:flex-row justify-around items-center border border-gray-100 dark:border-slate-800 text-center">
           <div>
-            <p className="text-sm text-gray-500 font-medium">{(ui[language as keyof typeof ui] || ui.English).adjProfit}</p>
+            <p className="text-sm text-gray-500 dark:text-slate-400 font-medium">{(ui[language as keyof typeof ui] || ui.English).adjProfit}</p>
             <p className={`text-xl font-bold ${adjustedProfit > 0 ? 'text-emerald-600' : 'text-red-600'}`}>
               {formatCurrency(adjustedProfit)}
             </p>
           </div>
           <div className="h-8 w-px bg-gray-300 hidden md:block"></div>
           <div className="mt-4 md:mt-0">
-            <div className="flex items-center justify-center text-sm text-slate-500">{(ui[language as keyof typeof ui] || ui.English).estBreak} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).breakInfo} /></div>
-            <p className="text-xl font-bold text-gray-800">
+            <div className="flex items-center justify-center text-sm text-slate-500 dark:text-slate-400">{(ui[language as keyof typeof ui] || ui.English).estBreak} <InfoTooltip text={(tips[language as keyof typeof tips] || tips.English).breakInfo} /></div>
+            <p className="text-xl font-bold text-gray-800 dark:text-slate-200">
               {adjustedProfit > 0 ? `${Math.ceil(adjustedBreakEven)} ${(ui[language as keyof typeof ui] || ui.English).months}` : (ui[language as keyof typeof ui] || ui.English).never}
             </p>
           </div>
