@@ -5,7 +5,8 @@ import React, { useState, useEffect } from 'react';
 import RecommendationScreen from './RecommendationScreen';
 import FinancialDashboard from './FinancialDashboard';
 import SchemeAdvisor from './SchemeAdvisor';
-import { FileText, PieChart, Landmark, Printer } from 'lucide-react';
+import NextSteps from './NextSteps';
+import { FileText, PieChart, Landmark, Printer, MessageCircle, CheckSquare } from 'lucide-react';
 
 interface BusinessDashboardProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,14 +19,14 @@ interface BusinessDashboardProps {
 }
 
 const uiDict: Record<string, any> = {
-  English: { title: "Underwriting Portal", sub: "Auto-generated bank-ready assessment", pdf: "Download PDF Report", tab1: "Business Feasibility", tab2: "Loan & Finances", tab3: "Matched Schemes" },
-  Hindi: { title: "अंडरराइटिंग पोर्टल", sub: "स्वचालित बैंक-तैयार मूल्यांकन", pdf: "दस्तावेज़ डाउनलोड करें", tab1: "व्यापार व्यवहार्यता", tab2: "ऋण और वित्त", tab3: "सुझाई गई योजनाएं" },
-  Tamil: { title: "வழங்குதல் போர்டல்", sub: "தானியங்கி வங்கி மதிப்பீடு", pdf: "ஆவணத்தைப் பதிவிறக்கு", tab1: "வணிக சாத்தியம்", tab2: "கடன் மற்றும் நிதி", tab3: "பொருத்தமான திட்டங்கள்" }
+  English: { title: "Underwriting Portal", sub: "Auto-generated bank-ready assessment", pdf: "Download PDF Report", tab1: "Business Feasibility", tab2: "Loan & Finances", tab3: "Matched Schemes", tab4: "Action Plan" },
+  Hindi: { title: "अंडरराइटिंग पोर्टल", sub: "स्वचालित बैंक-तैयार मूल्यांकन", pdf: "दस्तावेज़ डाउनलोड करें", tab1: "व्यापार व्यवहार्यता", tab2: "ऋण और वित्त", tab3: "सुझाई गई योजनाएं", tab4: "कार्य योजना" },
+  Tamil: { title: "வழங்குதல் போர்டல்", sub: "தானியங்கி வங்கி மதிப்பீடு", pdf: "ஆவணத்தைப் பதிவிறக்கு", tab1: "வணிக சாத்தியம்", tab2: "கடன் மற்றும் நிதி", tab3: "பொருத்தமான திட்டங்கள்", tab4: "செயல் திட்டம்" }
 };
 Object.keys(extraPrompts).forEach(lang => { uiDict[lang] = extraPrompts[lang].dash; });
 
 export default function BusinessDashboard({ businessPlan, financialData, schemes, language = "English" }: BusinessDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'plan' | 'finance' | 'schemes'>('plan');
+  const [activeTab, setActiveTab] = useState<'plan' | 'finance' | 'schemes' | 'steps'>('plan');
   const [isPrinting, setIsPrinting] = useState(false);
 
   useEffect(() => {
@@ -45,6 +46,13 @@ export default function BusinessDashboard({ businessPlan, financialData, schemes
     };
   }, []);
 
+  
+  const handleWhatsApp = () => {
+    const name = businessPlan?.title || businessPlan?.businessName || 'My New Business';
+    const text = `🚀 Check out my new business plan!\n\n*${name}*\n\nGenerated using Unnati Advisor.`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
   const handlePrint = () => {
     window.dispatchEvent(new Event('preparePrint'));
     setTimeout(() => {
@@ -62,13 +70,22 @@ export default function BusinessDashboard({ businessPlan, financialData, schemes
           <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">{(uiDict[language as keyof typeof uiDict] || uiDict.English).title}</h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{(uiDict[language as keyof typeof uiDict] || uiDict.English).sub}</p>
         </div>
-        <button 
-          onClick={handlePrint}
-          className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm dark:shadow-none"
-        >
-          <Printer className="w-4 h-4" />
-          <span>{(uiDict[language as keyof typeof uiDict] || uiDict.English).pdf}</span>
-        </button>
+        <div className="flex items-center space-x-3">
+          <button 
+            onClick={handleWhatsApp}
+            className="flex items-center space-x-2 bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors shadow-sm dark:shadow-none"
+          >
+            <MessageCircle className="w-4 h-4" />
+            <span className="hidden sm:inline">Share</span>
+          </button>
+          <button 
+            onClick={handlePrint}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm dark:shadow-none"
+          >
+            <Printer className="w-4 h-4" />
+            <span>{(uiDict[language as keyof typeof uiDict] || uiDict.English).pdf}</span>
+          </button>
+        </div>
       </div>
 
       {/* Tabs */}
@@ -110,6 +127,14 @@ export default function BusinessDashboard({ businessPlan, financialData, schemes
            <RecommendationScreen businessPlan={businessPlan} language={language} />
            <FinancialDashboard data={financialData} language={language} />
            <SchemeAdvisor schemes={schemes} language={language} />
+        
+          <button 
+            onClick={() => setActiveTab('steps')}
+            className={`flex-shrink-0 whitespace-nowrap flex items-center space-x-2 px-4 py-3 text-sm font-bold border-b-2 transition-colors ${activeTab === 'steps' ? 'border-orange-500 text-orange-700 dark:text-orange-400 bg-white dark:bg-[#20242D] rounded-t-xl shadow-[0_-2px_10px_rgba(0,0,0,0.02)]' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:bg-slate-100/50 dark:hover:bg-[#14161C] rounded-t-xl'}`}
+          >
+            <CheckSquare className="w-4 h-4" />
+            <span>{(uiDict[language as keyof typeof uiDict] || uiDict.English).tab4}</span>
+          </button>
         </div>
 
         {/* Screen Layout shows tabs */}
@@ -122,6 +147,9 @@ export default function BusinessDashboard({ businessPlan, financialData, schemes
           </div>
           <div className={`${(activeTab === 'schemes' || isPrinting) ? 'block' : 'hidden'} print:block`}>
             <SchemeAdvisor schemes={schemes} language={language} />
+          </div>
+          <div className={`${(activeTab === 'steps' || isPrinting) ? 'block' : 'hidden'} print:block mt-8`}>
+            <NextSteps businessPlan={businessPlan} language={language} />
           </div>
         </div>
       </div>

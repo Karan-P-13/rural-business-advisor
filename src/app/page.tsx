@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LZString from 'lz-string';
 import BusinessDashboard from '@/components/BusinessDashboard';
+import SkeletonDashboard from '@/components/SkeletonDashboard';
 import GlareHover from '@/components/GlareHover';
 import { extraPrompts } from "../lib/t";
 import { missingPrompts } from "../lib/t2";
@@ -705,15 +706,21 @@ export default function Home() {
           })}
 
           {isLoading && (
-            <div className="flex items-end gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#14161C] flex items-center justify-center shadow-sm dark:shadow-none">
-                <Sparkles className="w-4 h-4 text-white" />
+            <div className="flex flex-col space-y-4 mt-4 mb-4 w-full">
+              <div className="flex justify-start space-x-3">
+                <div className="w-8 h-8 flex-shrink-0 rounded-full bg-[#14161C] flex items-center justify-center shadow-sm dark:shadow-none">
+                  <Sparkles className="w-4 h-4 text-white" />
+                </div>
+                <div className="bg-white dark:bg-[#1A1D24] border border-slate-200 dark:border-slate-800 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm dark:shadow-none inline-flex items-center space-x-2 max-w-fit">
+                  <span className="text-sm text-slate-600 dark:text-slate-400 font-mono flex items-baseline">
+                    {loadingText || 'Thinking'}
+                    <span className="inline-block w-[1ch] h-[2px] bg-emerald-600 ml-[2px] animate-blink" style={{ transform: 'translateY(-2px)' }} />
+                  </span>
+                </div>
               </div>
-              <div className="bg-white dark:bg-[#1A1D24] border border-slate-200 dark:border-slate-800 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm dark:shadow-none flex items-center space-x-2">
-                <span className="text-sm text-slate-600 dark:text-slate-400 font-mono flex items-baseline">
-                  {loadingText || 'Thinking'}
-                  <span className="inline-block w-[1ch] h-[2px] bg-emerald-600 ml-[2px] animate-blink" style={{ transform: 'translateY(-2px)' }} />
-                </span>
+              
+              <div className="pl-11 w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <SkeletonDashboard />
               </div>
             </div>
           )}
