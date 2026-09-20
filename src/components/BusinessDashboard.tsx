@@ -49,7 +49,10 @@ export default function BusinessDashboard({ businessPlan, financialData, schemes
   
   const handleWhatsApp = () => {
     const name = businessPlan?.title || businessPlan?.businessName || 'My New Business';
-    const text = `🚀 Check out my new business plan!\n\n*${name}*\n\nGenerated using Unnati Advisor.`;
+    const score = businessPlan?.localDemandScore || 85;
+    const cost = financialData?.totalProjectCost ? "₹" + financialData.totalProjectCost.toLocaleString('en-IN') : "TBD";
+    const revenue = (financialData?.monthlyRevenue || financialData?.projectedRevenue) ? "₹" + (financialData?.monthlyRevenue || financialData?.projectedRevenue).toLocaleString('en-IN') : "TBD";
+    const text = `🚀 Check out my new business plan!\n\n*${name}*\n\n📈 Market Viability Score: ${score}/100\n💰 Total Project Cost: ${cost}\n💵 Monthly Revenue: ${revenue}\n\nGenerated using Unnati Advisor.`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   };
 
