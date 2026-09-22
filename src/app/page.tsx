@@ -546,8 +546,8 @@ export default function Home() {
               {sessions.length === 0 ? (
                 <p className="text-slate-500 dark:text-slate-400 text-sm text-center mt-8">{(t[language as keyof typeof t] || t.English).noPlans}</p>
               ) : sessions.map(s => (
-                <GlareHover 
-                  key={s.id} 
+                <div key={s.id} className="relative w-full group">
+                  <GlareHover 
                   onClick={() => loadSession(s)}
                   className="w-full text-left p-3 rounded-xl bg-slate-50 dark:bg-[#14161C] hover:bg-emerald-50 dark:hover:bg-emerald-950/30 border border-slate-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700/50 transition-all cursor-pointer group"
                   glareColor={isDarkMode ? '#ffffff' : '#10b981'}
@@ -579,7 +579,10 @@ export default function Home() {
                     <MoreVertical className="w-4 h-4" />
                   </button>
 
-                  {/* Dropdown Menu */}
+                  
+                  </div>
+                </GlareHover>
+                {/* Dropdown Menu */}
                   {openMenuId === s.id && (
                     <div className="absolute right-2 top-10 mt-1 w-36 bg-white dark:bg-[#1A1D24] border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl dark:shadow-none py-1 z-50 overflow-hidden">
                       <button 
@@ -609,8 +612,7 @@ export default function Home() {
                       </button>
                     </div>
                   )}
-                  </div>
-                </GlareHover>
+              </div>
               ))}
               <div className="p-4 border-t border-slate-200 dark:border-slate-800 mt-auto">
                 <button onClick={() => { if(window.confirm('Are you sure you want to delete all saved plans?')) { localStorage.removeItem('busidvice_sessions'); setSessions([]); } }} className="w-full py-2.5 px-4 bg-white dark:bg-[#1A1D24] border border-red-200 text-red-600 rounded-xl font-medium text-sm hover:bg-red-50 dark:hover:bg-red-950/30 flex items-center justify-center gap-2 transition-all shadow-sm dark:shadow-none">
