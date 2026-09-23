@@ -316,6 +316,27 @@ export default function Home() {
     const newMessages = [...messages, newMsg];
     setMessages(newMessages);
 
+    if (step !== 'COMPLETED') {
+      setIsLoading(true);
+      setLoadingText((t[language as keyof typeof t] || t.English).analyzingIdeas || 'Validating...');
+      try {
+        const res = await fetch('/api/validate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ step, input: msg, language })
+        });
+        const data = await res.json();
+        if (!data.valid && data.reply) {
+          setIsLoading(false);
+          setMessages(prev => [...prev, { id: Date.now().toString(), sender: 'bot', text: data.reply }]);
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+      setIsLoading(false);
+    }
+
     const newFormData = { ...formData };
 
     if (step === 'LOCATION') {
