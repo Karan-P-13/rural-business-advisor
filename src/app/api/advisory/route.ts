@@ -96,6 +96,22 @@ export async function POST(req: NextRequest) {
 
     const numericBudget = parseInt(budget.replace(/[^0-9]/g, ''), 10) || 50000;
 
+    const regionalDictionaries: Record<string, string> = {
+      Hindi: "Use culturally relevant rural Hindi terms (e.g., 'Kirana', 'Vyapar', 'Kisan', 'Mandi', 'Panchayat') to make the plan relatable.",
+      Tamil: "Use culturally relevant rural Tamil terms (e.g., 'Vivasayam', 'Kada', 'Panchayat', 'Santhai', 'Viyabaram') to make the plan relatable.",
+      English: "Focus on standard Indian rural terminology (e.g., 'Gram Panchayat', 'Mandi', 'SHGs - Self Help Groups') for relatability."
+    };
+    const languageTraining = regionalDictionaries[language] || regionalDictionaries.English;
+
+    const msmeStats = `
+RURAL DATASET CONTEXT (Use for realism):
+- 62.8% of rural workers are self-employed.
+- Average rural micro-enterprise break-even time: 8-14 months.
+- Top growth sectors (MSME 2026): Agro-processing, Rural E-Commerce, Handicrafts, Mobile Repair.
+- Supply chain logistics add 15% to OpEx in remote districts.
+`;
+
+
     const systemPrompt = `You are a senior fintech underwriter and micro-business advisor specializing in rural Indian entrepreneurship.
 Your job is to generate a hyper-localized, realistic business plan for the exact person described below.
 
@@ -106,6 +122,12 @@ STRICT RULES:
 4. The localDemandAssessment paragraph must mention real factors like nearby markets, competition, consumer habits.
 5. ENTIRE response MUST be in ${language}. Do NOT mix languages.
 6. Risk mitigations must be specific and actionable for this business type and location.
+
+LANGUAGE TRAINING CONTEXT:
+${languageTraining}
+Integrate these concepts naturally into your advice.
+
+${msmeStats}
 
 USER PROFILE:
 - Location: ${location}
