@@ -7,6 +7,7 @@
     "eligibilityCriteria": "Any individual above 18 years. At least VIII pass for projects above Rs. 10 Lakhs in manufacturing or above Rs. 5 Lakhs in service sector. Only new projects are considered.",
     "subsidyDetails": "Up to 35% subsidy for rural areas (special category) and 25% for general category.",
     "maxFunding": "Up to Rs. 50 Lakhs for manufacturing sector and Rs. 20 Lakhs for service sector.",
+    "region": "National",
     "requiredDocuments": [
       "Aadhaar Card",
       "Project Report",
@@ -26,80 +27,80 @@
     "name": "Pradhan Mantri MUDRA Yojana - Shishu",
     "description": "Loans for starting a new micro-business or expanding a very small existing business without collateral.",
     "targetAudience": ["retail", "street vendors", "micro-manufacturing", "artisans"],
-    "eligibilityCriteria": "Any Indian citizen with a business plan for a non-farm sector income generating activity such as manufacturing, processing, trading, or service sector.",
+    "eligibilityCriteria": "Any Indian citizen with a business plan for a non-farm sector income generating activity.",
     "subsidyDetails": "No direct subsidy, but offers very low-interest rates. No collateral required.",
     "maxFunding": "Up to Rs. 50,000.",
+    "region": "National",
     "requiredDocuments": [
       "Identity Proof (Aadhaar/Voter ID)",
       "Address Proof",
-      "Quotations for machinery/items to be purchased",
-      "Passport size photos"
+      "Quotations for machinery"
     ],
     "applicationSteps": [
       "Prepare a simple business plan.",
-      "Visit a local bank or apply through the Udyamimitra portal.",
-      "Fill out the MUDRA application form.",
-      "Submit the required documents."
+      "Visit a local bank or apply through the Udyamimitra portal."
     ]
   },
   {
-    "id": "mudra_kishore",
-    "name": "Pradhan Mantri MUDRA Yojana - Kishore",
-    "description": "Loans for micro-businesses that have started and need funds to expand.",
-    "targetAudience": ["retail", "service", "manufacturing", "expansion"],
-    "eligibilityCriteria": "Existing micro-enterprises needing funds for expansion. No default history.",
-    "subsidyDetails": "No direct subsidy. No collateral required.",
-    "maxFunding": "Rs. 50,000 to Rs. 5 Lakhs.",
+    "id": "tnrtp",
+    "name": "Tamil Nadu Rural Transformation Project (TNRTP)",
+    "description": "Exclusive scheme for rural entrepreneurs in Tamil Nadu to promote rural enterprises, access to finance, and employment opportunities.",
+    "targetAudience": ["rural", "women entrepreneurs", "agri-business", "handicrafts"],
+    "eligibilityCriteria": "Must be a resident of Tamil Nadu operating in targeted rural districts. Special focus on women and marginalized communities.",
+    "subsidyDetails": "Provides matching grants up to 30% for business plans approved by the Village Poverty Reduction Committee.",
+    "maxFunding": "Matching grant up to Rs. 3 Lakhs.",
+    "region": "Tamil Nadu",
     "requiredDocuments": [
-      "Identity and Address Proof",
-      "Business registration certificate",
-      "Last 6 months bank statement",
-      "Supplier quotations"
-    ],
-    "applicationSteps": [
-      "Approach a local bank with your business expansion plan.",
-      "Submit the MUDRA Kishore application form.",
-      "Provide bank statements and required documents."
-    ]
-  },
-  {
-    "id": "pm_vishwakarma",
-    "name": "PM Vishwakarma Yojana",
-    "description": "Aimed at supporting traditional artisans and craftspeople in rural and urban areas.",
-    "targetAudience": ["artisans", "craftspeople", "carpenters", "blacksmiths", "weavers", "potters", "tailors"],
-    "eligibilityCriteria": "An artisan or craftsperson working with hands and tools in one of the 18 family-based traditional trades.",
-    "subsidyDetails": "Credit support with concessional interest rate of 5%. Skill upgrading stipend. Toolkit incentive up to Rs. 15,000.",
-    "maxFunding": "Up to Rs. 1 Lakh (first tranche) and Rs. 2 Lakhs (second tranche).",
-    "requiredDocuments": [
+      "Nativity Certificate (TN)",
       "Aadhaar Card",
-      "Ration Card",
-      "Bank Details",
-      "Skill/Trade Proof (if applicable)"
+      "Community Certificate",
+      "Business Plan approved by local VPRC"
     ],
     "applicationSteps": [
-      "Register on the PM Vishwakarma portal using Aadhaar.",
-      "Undergo skill verification and basic training.",
-      "Apply for the toolkit incentive and credit support."
+      "Contact the local Village Poverty Reduction Committee (VPRC).",
+      "Submit your business plan for evaluation.",
+      "Receive matching grant upon bank loan approval."
     ]
   },
   {
-    "id": "standup_india",
-    "name": "Stand-Up India Scheme",
-    "description": "Facilitates bank loans for setting up a greenfield enterprise.",
-    "targetAudience": ["SC/ST entrepreneurs", "women entrepreneurs", "manufacturing", "services", "agri-allied"],
-    "eligibilityCriteria": "SC/ST and/or women entrepreneurs above 18 years of age. Must be a greenfield (new) project.",
-    "subsidyDetails": "Credit guarantee coverage available. Refinance window through SIDBI.",
-    "maxFunding": "Between Rs. 10 Lakhs and Rs. 1 Crore.",
+    "id": "umesrh",
+    "name": "UP Mukhyamantri Yuva Swarozgar Yojana",
+    "description": "State-specific scheme for youth in Uttar Pradesh to establish self-employment ventures.",
+    "targetAudience": ["youth", "manufacturing", "service"],
+    "eligibilityCriteria": "Must be a resident of Uttar Pradesh, aged 18-40 years, with minimum High School passing certificate.",
+    "subsidyDetails": "Margin money subsidy of 25% on the project cost.",
+    "maxFunding": "Up to Rs. 25 Lakhs for manufacturing and Rs. 10 Lakhs for service sector.",
+    "region": "Uttar Pradesh",
     "requiredDocuments": [
-      "Identity and Address Proof",
-      "Caste/Category Certificate",
-      "Detailed Project Report (DPR)",
-      "Bank Details"
+      "UP Domicile Certificate",
+      "Education Certificate",
+      "Aadhaar Card",
+      "Project Report"
     ],
     "applicationSteps": [
-      "Apply directly at the bank branch.",
-      "Apply through SIDBI's Stand-Up India portal.",
-      "Submit the DPR and necessary proofs."
+      "Apply online through the Di-UP portal.",
+      "Submit hard copies to the District Industries Centre (DIC)."
+    ]
+  },
+  {
+    "id": "cmegp_mh",
+    "name": "Chief Minister Employment Generation Programme (CMEGP) Maharashtra",
+    "description": "Maharashtra state scheme to create employment opportunities for youth by setting up micro-enterprises.",
+    "targetAudience": ["youth", "rural", "urban", "manufacturing"],
+    "eligibilityCriteria": "Resident of Maharashtra, aged 18-45 years (relaxable for special categories). Minimum 7th pass.",
+    "subsidyDetails": "State subsidy of 15% to 35% depending on category and location (rural/urban).",
+    "maxFunding": "Up to Rs. 50 Lakhs for manufacturing and Rs. 10 Lakhs for services.",
+    "region": "Maharashtra",
+    "requiredDocuments": [
+      "Maharashtra Domicile Certificate",
+      "Aadhaar Card",
+      "Educational Proof",
+      "Detailed Project Report"
+    ],
+    "applicationSteps": [
+      "Register on the MahaCMEGP portal.",
+      "Submit application and project report online.",
+      "Clear the District Level Task Force (DLTF) interview."
     ]
   }
 ]

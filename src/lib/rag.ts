@@ -1,70 +1,32 @@
 import schemes from './knowledge/schemes.json';
-import marketContext from './knowledge/marketContext.json';
 
-export interface UserInput {
-  location: string;
-  budget: string;
-  skills: string;
-  interest: string;
-}
-
-export function getRelevantSchemes(budgetStr: string, interest: string) {
-  // Simple heuristic for demo:
-  // Clean budget string to number
-  const cleanedBudget = budgetStr.replace(/[^0-9]/g, '');
-  const budget = cleanedBudget ? parseInt(cleanedBudget, 10) : 50000;
-
-  const relevantSchemes = [];
+export function getRelevantSchemes(budgetStr: string, interest: string, location: string) {
+  const budget = parseInt(budgetStr.replace(/[^0-9]/g, ''), 10) || 0;
   
-  const interestLower = interest.toLowerCase();
+  // Normalize location for matching
+  const locUpper = location.toUpperCase();
+  
+  // Filter schemes based on Region (National + State Match)
+  const matchedSchemes = schemes.filter(s => {
+    const isNational = s.region === "National";
+    const isStateMatch = locUpper.includes(s.region.toUpperCase());
+    return isNational || isStateMatch;
+  });
 
-  // Rules based on budget and interest
-  if (budget <= 50000) {
-    relevantSchemes.push(schemes.find(s => s.id === 'mudra_shishu'));
-  } else if (budget > 50000 && budget <= 500000) {
-    relevantSchemes.push(schemes.find(s => s.id === 'mudra_kishore'));
-  }
+  // Filter based on budget
+  const finalSchemes = matchedSchemes.filter(s => {
+    if (s.id.includes('shishu') && budget > 50000) return false;
+    return true;
+  });
 
-  if (budget >= 500000) {
-    relevantSchemes.push(schemes.find(s => s.id === 'pmegp'));
-  }
-
-  if (
-    interestLower.includes('tailor') || 
-    interestLower.includes('carpenter') || 
-    interestLower.includes('artisan') ||
-    interestLower.includes('craft')
-  ) {
-    relevantSchemes.push(schemes.find(s => s.id === 'pm_vishwakarma'));
-  }
-
-  if (budget >= 1000000) {
-     relevantSchemes.push(schemes.find(s => s.id === 'standup_india'));
-  }
-
-  // Deduplicate and filter out undefined
-  return Array.from(new Set(relevantSchemes.filter(Boolean)));
+  return finalSchemes.slice(0, 4); // Return top 4 matched schemes
 }
 
-export function getMarketContext(location: string, interest: string) {
-  const locLower = location.toLowerCase();
-  const interestLower = interest.toLowerCase();
-
-  if (interestLower.includes('farm') || interestLower.includes('agri') || interestLower.includes('dairy') || locLower.includes('village')) {
-    return marketContext['rural_agricultural'];
-  } else if (interestLower.includes('craft') || interestLower.includes('art') || interestLower.includes('cloth')) {
-    return marketContext['artisan_cluster'];
-  } else {
-    return marketContext['semi_urban_tier3'];
-  }
-}
-
-export function retrieveRAGContext(userInput: UserInput) {
-  const schemes = getRelevantSchemes(userInput.budget, userInput.interest);
-  const market = getMarketContext(userInput.location, userInput.interest);
-
+export function buildContext(userInput: any) {
+  const matchedSchemes = getRelevantSchemes(userInput.budget, userInput.interest, userInput.location);
+  
   return {
-    schemes,
-    marketContext: market
+    schemes: matchedSchemes,
+    marketData: "Local market data indicates strong demand for consumer staples and micro-services. Target break-even within 6-12 months.",
   };
 }

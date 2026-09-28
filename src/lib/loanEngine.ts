@@ -1,17 +1,22 @@
-import { SchemeProfile, Sector, schemesDatabase } from '../data/schemesData';
+export type Sector = 'Agriculture' | 'Food' | 'Retail' | 'Manufacturing' | 'Service' | 'Electronics' | 'Construction' | 'Beauty' | 'IT' | 'Transport' | 'Any';
 
-export interface UserProfile {
-  location: string;     // Free text e.g. "Chennai, Tamil Nadu"
-  budget: string;       // e.g. "₹50,000"
-  skills: string;       // e.g. "Tailoring"
-  interest: string;     // e.g. "Garment shop"
+export interface SchemeProfile {
+  id: string;
+  name: string;
+  description: string;
+  level: 'National' | 'State';
+  state?: string;
+  minLoan?: number;
+  maxLoan: number;
+  allowedSectors: Sector[];
+  excludedSectors: Sector[];
 }
 
 export interface EligibilityResult {
   scheme: SchemeProfile;
   eligible: boolean;
-  reasons: string[];          // Why it matched
-  disqualifiers: string[];    // Why it didn't match (shown when eligible=false)
+  reasons: string[];
+  disqualifiers: string[];
 }
 
 export interface LoanUnderwritingResult {
@@ -26,17 +31,83 @@ export interface LoanUnderwritingResult {
   verdict: 'Highly Affordable' | 'Moderate / Viable' | 'Unaffordable';
   verdictDescription: string;
   recommendedSchemes: SchemeProfile[];
-  eligibilityDetails: EligibilityResult[];  // Full breakdown for every scheme
+  eligibilityDetails: EligibilityResult[];
 }
 
-// ─── Sector Classification ──────────────────────────────────────────────────
-// Map free-text skills/interests to our canonical Sector type
-const SECTOR_KEYWORDS: Record<Sector, string[]> = {
-  Agriculture: ['farm', 'agri', 'crop', 'kisan', 'soil', 'harvest', 'paddy', 'wheat', 'tractor', 'irrigation'],
-  Dairy:       ['dairy', 'milk', 'cow', 'buffalo', 'cattle', 'poultry', 'goat', 'sheep'],
-  Fisheries:   ['fish', 'prawn', 'shrimp', 'aqua', 'pond', 'marine'],
-  Handicrafts: ['craft', 'pottery', 'weave', 'weaving', 'basket', 'cane', 'bamboo', 'embroid', 'zari', 'block print', 'sculptor', 'mat maker'],
-  Tailoring:   ['tailor', 'sewing', 'stitch', 'garment', 'cloth', 'fabric', 'dress', 'boutique'],
+// ─── Database of Schemes ─────────────────────────────────────────────────────
+const schemesDatabase: SchemeProfile[] = [
+  {
+    id: 'pmegp_manufacturing',
+    name: 'PMEGP (Manufacturing)',
+    description: 'Prime Minister Employment Generation Programme for manufacturing units. Huge subsidy for rural areas.',
+    level: 'National',
+    maxLoan: 5000000,
+    allowedSectors: ['Manufacturing', 'Food', 'Electronics', 'Construction'],
+    excludedSectors: ['Agriculture', 'Retail'],
+  },
+  {
+    id: 'pmegp_service',
+    name: 'PMEGP (Service)',
+    description: 'Prime Minister Employment Generation Programme for service sector and retail.',
+    level: 'National',
+    maxLoan: 2000000,
+    allowedSectors: ['Retail', 'Beauty', 'IT', 'Transport', 'Food'],
+    excludedSectors: ['Agriculture'],
+  },
+  {
+    id: 'mudra_shishu',
+    name: 'Pradhan Mantri MUDRA Yojana - Shishu',
+    description: 'Micro-loans for starting a new very small business without collateral.',
+    level: 'National',
+    maxLoan: 50000,
+    allowedSectors: ['Any'],
+    excludedSectors: ['Agriculture'],
+  },
+  {
+    id: 'mudra_kishore',
+    name: 'Pradhan Mantri MUDRA Yojana - Kishore',
+    description: 'Mid-sized micro-loans for growing businesses.',
+    level: 'National',
+    minLoan: 50000,
+    maxLoan: 500000,
+    allowedSectors: ['Any'],
+    excludedSectors: ['Agriculture'],
+  },
+  {
+    id: 'tnrtp',
+    name: 'Tamil Nadu Rural Transformation Project (TNRTP)',
+    description: 'Exclusive state grant matching scheme for rural entrepreneurs in Tamil Nadu.',
+    level: 'State',
+    state: 'Tamil Nadu',
+    maxLoan: 300000,
+    allowedSectors: ['Any'],
+    excludedSectors: [],
+  },
+  {
+    id: 'cmegp_mh',
+    name: 'CMEGP Maharashtra',
+    description: 'Chief Minister Employment Generation Programme exclusively for Maharashtra residents.',
+    level: 'State',
+    state: 'Maharashtra',
+    maxLoan: 5000000,
+    allowedSectors: ['Manufacturing', 'Retail', 'Service', 'Food'],
+    excludedSectors: [],
+  },
+  {
+    id: 'umesrh',
+    name: 'UP Mukhyamantri Yuva Swarozgar Yojana',
+    description: 'State scheme for youth in Uttar Pradesh to establish self-employment ventures.',
+    level: 'State',
+    state: 'Uttar Pradesh',
+    maxLoan: 2500000,
+    allowedSectors: ['Any'],
+    excludedSectors: [],
+  }
+];
+
+// ─── Classification Engines ──────────────────────────────────────────────────
+const SECTOR_KEYWORDS = {
+  Agriculture: ['farm', 'crop', 'agriculture', 'tractor', 'seed', 'dairy', 'poultry', 'animal', 'goat', 'cow'],
   Food:        ['cook', 'bake', 'cake', 'canteen', 'tiffin', 'catering', 'bakery', 'restaurant', 'food', 'snack', 'tea stall', 'chai'],
   Retail:      ['shop', 'store', 'sell', 'trader', 'kirana', 'grocery', 'retail', 'merchant', 'dealership'],
   Manufacturing: ['manufactur', 'factory', 'produce', 'assembl', 'packag', 'processing', 'unit', 'paper', 'plastic', 'rubber'],
@@ -57,7 +128,6 @@ function classifySectors(text: string): Set<Sector> {
       detected.add(sector);
     }
   }
-  // Default to Retail if nothing detected (most common micro-business)
   if (detected.size === 0) detected.add('Retail');
   return detected;
 }
@@ -119,7 +189,6 @@ export function checkEligibility(
   const reasons: string[] = [];
   const disqualifiers: string[] = [];
 
-  // 1. State check
   if (scheme.level === 'State' && scheme.state) {
     if (detectedState !== scheme.state) {
       disqualifiers.push(`This scheme is exclusive to ${scheme.state} residents. Your location (${detectedState}) is not eligible.`);
@@ -128,19 +197,16 @@ export function checkEligibility(
     }
   }
 
-  // 2. Budget/Loan ceiling check
   if (projectCost > scheme.maxLoan) {
     disqualifiers.push(`Project cost ₹${projectCost.toLocaleString('en-IN')} exceeds scheme maximum of ₹${scheme.maxLoan.toLocaleString('en-IN')}.`);
   } else {
     reasons.push(`✅ Budget ₹${projectCost.toLocaleString('en-IN')} is within loan ceiling of ₹${scheme.maxLoan.toLocaleString('en-IN')}.`);
   }
 
-  // 3. Minimum loan check
   if (scheme.minLoan && projectCost < scheme.minLoan) {
     disqualifiers.push(`Project cost ₹${projectCost.toLocaleString('en-IN')} is below this scheme's minimum of ₹${scheme.minLoan.toLocaleString('en-IN')}.`);
   }
 
-  // 4. Sector eligibility
   const sectorAllowed = scheme.allowedSectors.includes('Any') ||
     [...userSectors].some(s => scheme.allowedSectors.includes(s));
 
@@ -177,7 +243,6 @@ export function calculateLoanMetrics(
   const userEquity = totalProjectCost * 0.10;
   const netBankLoan = totalProjectCost - userEquity;
 
-  // EMI: [P * r * (1 + r)^n] / [(1 + r)^n - 1]
   const r = (interestRate / 100) / 12;
   const n = tenureMonths;
   const monthlyEMI = netBankLoan > 0
@@ -201,17 +266,14 @@ export function calculateLoanMetrics(
     verdictDescription = '❌ High Risk — Loan Default Probable. Consider reducing initial investment or increasing self-contribution.';
   }
 
-  // ── Classify the user's business context ─────────────────────────────────
   const combinedContext = `${skillsRaw} ${interestRaw}`;
   const userSectors = classifySectors(combinedContext);
   const detectedState = detectState(locationRaw);
 
-  // ── Run eligibility engine against ALL schemes ─────────────────────────
   const eligibilityDetails: EligibilityResult[] = schemesDatabase.map(scheme =>
     checkEligibility(scheme, totalProjectCost, detectedState, userSectors)
   );
 
-  // Only return truly eligible schemes
   const recommendedSchemes = eligibilityDetails
     .filter(r => r.eligible)
     .map(r => r.scheme);
