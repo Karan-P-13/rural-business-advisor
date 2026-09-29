@@ -1,16 +1,16 @@
 {
-  "name": "BusiDvice",
-  "short_name": "BusiDvice",
-  "description": "Hyper-local business advisor for rural micro-entrepreneurs",
+  "name": "Unnati Advisor",
+  "short_name": "Unnati",
+  "description": "AI-Driven Business Advisor for Rural Entrepreneurs",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#1A1D24",
   "theme_color": "#10b981",
   "icons": [
     {
-      "src": "/icon.svg",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml"
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
     }
   ]
 }

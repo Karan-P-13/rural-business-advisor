@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+const fs = require('fs');
+
+const content = `import React, { useState, useEffect } from 'react';
 import { CheckCircle2, Circle, ArrowRight } from 'lucide-react';
 
 interface NextStepsProps {
@@ -55,7 +57,7 @@ const NextSteps = ({ businessPlan, language, sessionId = "default-session" }: Ne
 
   // Load from localStorage on mount
   useEffect(() => {
-    const saved = localStorage.getItem(`busidvice_action_plan_${sessionId}`);
+    const saved = localStorage.getItem(\`busidvice_action_plan_\${sessionId}\`);
     if (saved) {
       try {
         setChecked(JSON.parse(saved));
@@ -69,7 +71,7 @@ const NextSteps = ({ businessPlan, language, sessionId = "default-session" }: Ne
   const toggleCheck = (index: number) => {
     const newChecked = { ...checked, [index]: !checked[index] };
     setChecked(newChecked);
-    localStorage.setItem(`busidvice_action_plan_${sessionId}`, JSON.stringify(newChecked));
+    localStorage.setItem(\`busidvice_action_plan_\${sessionId}\`, JSON.stringify(newChecked));
   };
 
   const progress = Math.round((Object.values(checked).filter(Boolean).length / steps.length) * 100);
@@ -97,7 +99,7 @@ const NextSteps = ({ businessPlan, language, sessionId = "default-session" }: Ne
             return (
               <div 
                 key={idx} 
-                className={`flex items-start space-x-4 p-4 rounded-xl transition-all cursor-pointer border ${isDone ? 'bg-emerald-50/50 dark:bg-emerald-950/10 border-emerald-100 dark:border-emerald-900/30' : 'bg-white dark:bg-[#20242D] border-slate-100 dark:border-slate-800 hover:border-emerald-200 dark:hover:border-emerald-800'}`}
+                className={\`flex items-start space-x-4 p-4 rounded-xl transition-all cursor-pointer border \${isDone ? 'bg-emerald-50/50 dark:bg-emerald-950/10 border-emerald-100 dark:border-emerald-900/30' : 'bg-white dark:bg-[#20242D] border-slate-100 dark:border-slate-800 hover:border-emerald-200 dark:hover:border-emerald-800'}\`}
                 onClick={() => toggleCheck(idx)}
               >
                 <div className="mt-0.5 relative z-10 bg-white dark:bg-[#20242D] rounded-full flex-shrink-0">
@@ -108,10 +110,10 @@ const NextSteps = ({ businessPlan, language, sessionId = "default-session" }: Ne
                   )}
                 </div>
                 <div className="flex-1">
-                  <h3 className={`font-semibold ${isDone ? 'text-emerald-800 dark:text-emerald-400 line-through opacity-70' : 'text-slate-900 dark:text-slate-200'}`}>
+                  <h3 className={\`font-semibold \${isDone ? 'text-emerald-800 dark:text-emerald-400 line-through opacity-70' : 'text-slate-900 dark:text-slate-200'}\`}>
                     {step.title}
                   </h3>
-                  <p className={`text-sm mt-1 ${isDone ? 'text-emerald-600/70 dark:text-emerald-500/50' : 'text-slate-500 dark:text-slate-400'}`}>
+                  <p className={\`text-sm mt-1 \${isDone ? 'text-emerald-600/70 dark:text-emerald-500/50' : 'text-slate-500 dark:text-slate-400'}\`}>
                     {step.desc}
                   </p>
                 </div>
@@ -125,3 +127,6 @@ const NextSteps = ({ businessPlan, language, sessionId = "default-session" }: Ne
 };
 
 export default NextSteps;
+`;
+
+fs.writeFileSync('src/components/NextSteps.tsx', content);

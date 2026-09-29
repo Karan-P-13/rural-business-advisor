@@ -697,6 +697,7 @@ export default function Home() {
                     financialData={msg.dashboardData.financials}
                     schemes={msg.dashboardData.schemes}
                     language={language as 'English' | 'Hindi' | 'Tamil'}
+                    sessionId={msg.id}
                   />
                 </div>
               );
