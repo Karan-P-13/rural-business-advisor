@@ -7,6 +7,8 @@ import SkeletonDashboard from '@/components/SkeletonDashboard';
 import GlareHover from '@/components/GlareHover';
 import { extraPrompts } from "../lib/t";
 import { missingPrompts } from "../lib/t2";
+import { useSession, signOut } from 'next-auth/react';
+import LoginModal from '@/components/LoginModal';
 import { MoreVertical, Edit2, Share2, Download, Volume2, Send, MapPin, Mic, Globe, Sparkles, User, Loader2, Plus, Menu, Moon, Sun, X, MessageSquare, Clock, Camera, Trash2 } from 'lucide-react';
 
 type Language = string;
@@ -132,6 +134,8 @@ export default function Home() {
   const [dynamicIdeas, setDynamicIdeas] = useState<string[]>([]);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { data: session } = useSession();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {

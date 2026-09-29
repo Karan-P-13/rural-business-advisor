@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   },
 };
 
+import SessionWrapper from "@/components/SessionWrapper";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,7 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased font-sans">
-        {children}
+        <SessionWrapper>
+          {children}
+        </SessionWrapper>
       </body>
     </html>
   );
