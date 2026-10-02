@@ -1,6 +1,6 @@
 {
-  "name": "Unnati Advisor",
-  "short_name": "Unnati",
+  "name": "BusiDvice",
+  "short_name": "BusiDvice",
   "description": "AI-Driven Business Advisor for Rural Entrepreneurs",
   "start_url": "/",
   "display": "standalone",
@@ -8,13 +8,13 @@
   "theme_color": "#10b981",
   "icons": [
     {
-      "src": "/icon",
+      "src": "/icon?v=2",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/apple-icon",
+      "src": "/apple-icon?v=2",
       "sizes": "512x512",
       "type": "image/png"
     }

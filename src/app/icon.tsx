@@ -1,6 +1,5 @@
 import { ImageResponse } from 'next/og';
  
-export const runtime = 'edge';
 export const size = { width: 512, height: 512 };
 export const contentType = 'image/png';
  
@@ -14,7 +13,7 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(to bottom right, #10b981, #047857)',
+          background: 'linear-gradient(to bottom right, #10b982, #047857)',
           borderRadius: '112px',
         }}
       >
